@@ -1,0 +1,60 @@
+@model IdentityApp.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "User Profile";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <form method="post" action="@Url.Action("UpdateProfile")" class="needs-validation">
+            @Html.AntiForgeryToken()
+
+            <div class="card">
+                <div class="card-header">
+                    <h5>Profile Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" value="@Model.Email" disabled />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">User Name</label>
+                        <input type="text" class="form-control" value="@Model.UserName" disabled />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Phone Number</label>
+                        <input type="text" name="PhoneNumber" class="form-control" value="@(Model.PhoneNumber ?? "")" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">City</label>
+                        <input type="text" name="City" class="form-control" value="@(Model.City ?? "")" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Email Confirmed</label>
+                        <div>
+                            @if (Model.EmailConfirmed)
+                            {
+                                <span class="badge bg-success">Confirmed</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Not Confirmed</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <a href="@Url.Action("GetUserCart")" class="btn btn-secondary">View Cart</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

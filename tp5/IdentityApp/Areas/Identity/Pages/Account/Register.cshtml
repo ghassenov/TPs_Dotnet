@@ -1,0 +1,64 @@
+﻿@page
+@model RegisterModel
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - IdentityApp</title>
+    <link rel="stylesheet" href="~/css/auth.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1>Create Account</h1>
+            <p>Join us today</p>
+        </div>
+        
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <div asp-validation-summary="ModelOnly" class="validation-summary" role="alert"></div>
+            
+            <div class="form-group">
+                <label asp-for="Input.Email" class="form-label">Email Address</label>
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="you@example.com" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            
+            <div class="password-requirements">
+                <strong>Password Requirements:</strong>
+                • Minimum 6 characters<br/>
+                • At least 1 digit<br/>
+                • At least 1 lowercase letter
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="Input.Password" class="form-label">Password</label>
+                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="••••••••" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="Input.ConfirmPassword" class="form-label">Confirm Password</label>
+                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="••••••••" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            
+            <button id="registerSubmit" type="submit" class="btn-submit">Create Account</button>
+        </form>
+        
+        <div class="auth-footer">
+            <p>Already have an account? <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Sign in here</a></p>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>

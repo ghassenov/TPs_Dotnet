@@ -1,0 +1,70 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - IdentityApp</title>
+    <link rel="stylesheet" href="~/css/auth.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1>Welcome Back</h1>
+            <p>Sign in to your account</p>
+        </div>
+        
+        <form id="account" method="post">
+            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+            {
+                <div class="validation-summary" role="alert">
+                    @Model.ErrorMessage
+                </div>
+            }
+            
+            <div asp-validation-summary="ModelOnly" class="validation-summary" role="alert"></div>
+            
+            <div class="form-group">
+                <label asp-for="Input.Email" class="form-label">Email Address</label>
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="you@example.com" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="Input.Password" class="form-label">Password</label>
+                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="••••••••" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" asp-for="Input.RememberMe" id="rememberMe" />
+                <label class="form-check-label" for="rememberMe">
+                    Remember me
+                </label>
+            </div>
+            
+            <button id="login-submit" type="submit" class="btn-submit">Sign In</button>
+        </form>
+        
+        <div class="auth-footer">
+            <p>
+                <a asp-page="./ForgotPassword">Forgot your password?</a>
+            </p>
+            <p>
+                Don't have an account? <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register now</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>
