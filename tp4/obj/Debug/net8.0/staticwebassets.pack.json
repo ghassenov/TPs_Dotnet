@@ -1,0 +1,33 @@
+{
+  "Files": [
+    {
+      "Id": "/home/omar/tp_dotnet/tp4/obj/Debug/net8.0/scopedcss/projectbundle/MoviesCrudApp.bundle.scp.css",
+      "PackagePath": "staticwebassets/MoviesCrudApp.bundle.scp.css"
+    },
+    {
+      "Id": "/home/omar/tp_dotnet/tp4/wwwroot/css/site.css",
+      "PackagePath": "staticwebassets/css/site.css"
+    },
+    {
+      "Id": "/home/omar/tp_dotnet/tp4/wwwroot/js/site.js",
+      "PackagePath": "staticwebassets/js/site.js"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.MoviesCrudApp.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.MoviesCrudApp.props",
+      "PackagePath": "build\\MoviesCrudApp.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.MoviesCrudApp.props",
+      "PackagePath": "buildMultiTargeting\\MoviesCrudApp.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.MoviesCrudApp.props",
+      "PackagePath": "buildTransitive\\MoviesCrudApp.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

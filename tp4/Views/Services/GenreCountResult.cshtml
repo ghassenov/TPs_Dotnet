@@ -1,0 +1,371 @@
+@model List<MoviesCrudApp.Services.GenreCountDTO>
+
+@{
+    ViewData["Title"] = ViewBag.Title ?? "Top 3 Genres";
+}
+
+<div class="modern-container">
+    <!-- Header -->
+    <div class="modern-result-header">
+        <a href="@Url.Action("Index", "Services")" class="modern-back-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M15 19l-7-7 7-7"/>
+            </svg>
+            Retour aux Services
+        </a>
+        <h1 class="modern-result-title">@ViewBag.Title</h1>
+        <p class="modern-result-description">@ViewBag.Description</p>
+    </div>
+
+    <!-- Results -->
+    @if (Model != null && Model.Count > 0)
+    {
+        <div class="modern-ranking-container">
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                var genre = Model[i];
+                var rank = i + 1;
+                var medals = new[] { "🥇", "🥈", "🥉" };
+                var medal = rank <= 3 ? medals[rank - 1] : "📊";
+
+                <div class="modern-ranking-card modern-rank-@rank">
+                    <div class="modern-ranking-header">
+                        <div class="modern-ranking-medal">@medal</div>
+                        <div class="modern-ranking-rank">
+                            <span class="modern-rank-number">@rank</span>
+                            <span class="modern-rank-label">@(rank == 1 ? "1er" : rank + "e") place</span>
+                        </div>
+                    </div>
+
+                    <div class="modern-ranking-content">
+                        <h3 class="modern-genre-name">@genre.GenreName</h3>
+                        <div class="modern-count-bar">
+                            <div class="modern-count-fill" style="width: @((genre.MovieCount * 100 / Model[0].MovieCount))%">
+                                <span class="modern-count-text">@genre.MovieCount film@(genre.MovieCount > 1 ? "s" : "")</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modern-ranking-footer">
+                        <span class="modern-count-badge">@genre.MovieCount</span>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="modern-empty-state">
+            <svg class="modern-empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <h3>Aucun résultat</h3>
+            <p>Aucun genre ne correspond à vos critères.</p>
+        </div>
+    }
+
+    <!-- Query Info -->
+    <div class="modern-card modern-query-info">
+        <div class="modern-card-header">
+            <h3 class="modern-card-title">📝 Requête LINQ Exécutée</h3>
+        </div>
+        <div class="modern-query-code">
+            <pre>var topGenres = await _context.Genres
+    .AsNoTracking()
+    .Select(g => new GenreCountDTO
+    {
+        GenreId = g.Id,
+        GenreName = g.Name,
+        MovieCount = g.Movies.Count()
+    })
+    .OrderByDescending(g => g.MovieCount)
+    .Take(3)
+    .ToListAsync();</pre>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #eef2ff;
+            --secondary: #64748b;
+            --success: #10b981;
+            --surface: #ffffff;
+            --background: #f8fafc;
+            --border: #e2e8f0;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --radius: 12px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --transition: all 0.2s ease;
+        }
+
+        .modern-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .modern-result-header {
+            margin-bottom: 2rem;
+        }
+
+        .modern-back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            transition: var(--transition);
+        }
+
+        .modern-back-link:hover {
+            gap: 1rem;
+        }
+
+        .modern-back-link svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .modern-result-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text);
+            margin: 1rem 0 0.5rem 0;
+            background: linear-gradient(135deg, var(--primary) 0%, #3a56d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .modern-result-description {
+            color: var(--text-light);
+            font-size: 1rem;
+            margin: 0.5rem 0 0 0;
+        }
+
+        .modern-ranking-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .modern-ranking-card {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .modern-ranking-card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-4px);
+        }
+
+        .modern-rank-1 {
+            border-color: #fbbf24;
+            background: linear-gradient(135deg, #fffbeb 0%, var(--surface) 100%);
+        }
+
+        .modern-rank-2 {
+            border-color: #d1d5db;
+            background: linear-gradient(135deg, #f9fafb 0%, var(--surface) 100%);
+        }
+
+        .modern-rank-3 {
+            border-color: #d4a373;
+            background: linear-gradient(135deg, #fef5e7 0%, var(--surface) 100%);
+        }
+
+        .modern-ranking-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.02);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modern-ranking-medal {
+            font-size: 2.5rem;
+        }
+
+        .modern-ranking-rank {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modern-rank-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .modern-rank-label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .modern-ranking-content {
+            padding: 1.5rem;
+        }
+
+        .modern-genre-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text);
+            margin: 0 0 1rem 0;
+        }
+
+        .modern-count-bar {
+            background: var(--background);
+            border-radius: 10px;
+            height: 40px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .modern-count-fill {
+            background: linear-gradient(90deg, var(--primary) 0%, #3a56d4 100%);
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0 1rem;
+            transition: width 0.5s ease;
+            min-width: 60px;
+        }
+
+        .modern-count-text {
+            color: white;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .modern-ranking-footer {
+            padding: 1rem 1.5rem;
+            background: rgba(0, 0, 0, 0.02);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .modern-count-badge {
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .modern-empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+        }
+
+        .modern-empty-icon {
+            width: 64px;
+            height: 64px;
+            color: var(--secondary);
+            margin: 0 auto 1rem;
+            opacity: 0.5;
+        }
+
+        .modern-empty-state h3 {
+            font-size: 1.3rem;
+            color: var(--text);
+            margin: 0 0 0.5rem 0;
+        }
+
+        .modern-empty-state p {
+            color: var(--text-light);
+            margin: 0;
+        }
+
+        .modern-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .modern-card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modern-card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .modern-query-info {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        .modern-query-info .modern-card-header {
+            border-bottom-color: #334155;
+        }
+
+        .modern-query-info .modern-card-title {
+            color: #e2e8f0;
+        }
+
+        .modern-query-code {
+            padding: 1.5rem;
+        }
+
+        .modern-query-code pre {
+            margin: 0;
+            padding: 1rem;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: #10b981;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            line-height: 1.6;
+        }
+
+        @@media (max-width: 768px) {
+            .modern-result-title {
+                font-size: 1.5rem;
+            }
+
+            .modern-ranking-header {
+                gap: 0.75rem;
+            }
+
+            .modern-ranking-medal {
+                font-size: 2rem;
+            }
+
+            .modern-genre-name {
+                font-size: 1.2rem;
+            }
+
+            .modern-rank-number {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+}

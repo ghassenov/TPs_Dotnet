@@ -1,0 +1,392 @@
+@{
+    ViewData["Title"] = "Repository Pattern Demo";
+}
+
+<div class="modern-container">
+    <!-- Header -->
+    <div class="modern-header">
+        <h1 class="modern-title">📚 Repository Pattern Demo</h1>
+        <p class="modern-subtitle">Visualisez l'utilisation du Repository Pattern avec le Unit of Work</p>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="modern-stats-grid">
+        <div class="modern-stat-card">
+            <div class="modern-stat-icon">🎬</div>
+            <h3 class="modern-stat-title">Films</h3>
+            <p class="modern-stat-value">@ViewBag.TotalMovies</p>
+            <a asp-action="Movies" class="modern-stat-link">Voir les films</a>
+        </div>
+
+        <div class="modern-stat-card">
+            <div class="modern-stat-icon">👥</div>
+            <h3 class="modern-stat-title">Clients</h3>
+            <p class="modern-stat-value">@ViewBag.TotalCustomers</p>
+            <a asp-action="Customers" class="modern-stat-link">Voir les clients</a>
+        </div>
+
+        <div class="modern-stat-card">
+            <div class="modern-stat-icon">🎭</div>
+            <h3 class="modern-stat-title">Genres</h3>
+            <p class="modern-stat-value">@ViewBag.TotalGenres</p>
+            <a asp-action="Genres" class="modern-stat-link">Voir les genres</a>
+        </div>
+
+        <div class="modern-stat-card">
+            <div class="modern-stat-icon">💳</div>
+            <h3 class="modern-stat-title">Types d'Adhésion</h3>
+            <p class="modern-stat-value">@ViewBag.TotalMembershipTypes</p>
+            <a asp-action="Genres" class="modern-stat-link">Gérer types</a>
+        </div>
+    </div>
+
+    <!-- Repository Operations -->
+    <div class="modern-operations-section">
+        <h2 class="modern-section-title">Opérations du Repository</h2>
+        
+        <div class="modern-operations-grid">
+            <div class="modern-operation-card">
+                <div class="modern-op-icon">📊</div>
+                <h4>Films avec Stock</h4>
+                <p>Récupérez tous les films avec un stock disponible</p>
+                <a asp-action="MoviesWithStock" class="modern-btn modern-btn-sm">Exécuter</a>
+            </div>
+
+            <div class="modern-operation-card">
+                <div class="modern-op-icon">⭐</div>
+                <h4>Top 3 Genres</h4>
+                <p>Les 3 genres avec le plus de films</p>
+                <a asp-action="TopGenres" class="modern-btn modern-btn-sm">Exécuter</a>
+            </div>
+
+            <div class="modern-operation-card">
+                <div class="modern-op-icon">📧</div>
+                <h4>Abonnés Newsletter</h4>
+                <p>Clients abonnés à la lettre d'actualités</p>
+                <a asp-action="NewsletterSubscribers" class="modern-btn modern-btn-sm">Exécuter</a>
+            </div>
+
+            <div class="modern-operation-card">
+                <div class="modern-op-icon">💰</div>
+                <h4>Clients Premium</h4>
+                <p>Clients avec réduction > 10%</p>
+                <a asp-action="HighDiscountCustomers" class="modern-btn modern-btn-sm">Exécuter</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Section -->
+    <div class="modern-search-section">
+        <h2 class="modern-section-title">Recherche</h2>
+        
+        <div class="modern-search-grid">
+            <div class="modern-search-card">
+                <h4>Rechercher un Film</h4>
+                <form asp-action="SearchMovies" method="get">
+                    <div class="modern-form-group">
+                        <input type="text" name="searchTerm" class="modern-input" 
+                               placeholder="Entrez un titre ou description..." />
+                    </div>
+                    <button type="submit" class="modern-btn modern-btn-primary">Rechercher</button>
+                </form>
+            </div>
+
+            <div class="modern-search-card">
+                <h4>Rechercher un Client</h4>
+                <form asp-action="SearchCustomers" method="get">
+                    <div class="modern-form-group">
+                        <input type="text" name="searchTerm" class="modern-input" 
+                               placeholder="Entrez un nom ou email..." />
+                    </div>
+                    <button type="submit" class="modern-btn modern-btn-primary">Rechercher</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Info Box -->
+    <div class="modern-info-section">
+        <div class="modern-info-card">
+            <h3>À propos du Repository Pattern</h3>
+            <p>
+                Le Repository Pattern est un pattern de conception qui centralise la logique d'accès aux données.
+                Il permet de:
+            </p>
+            <ul class="modern-info-list">
+                <li>Centraliser la logique d'accès aux données</li>
+                <li>Faciliter les tests unitaires</li>
+                <li>Réduire la redondance du code</li>
+                <li>Améliorer la maintenabilité</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Back Button -->
+    <div class="modern-back-section">
+        <a href="@Url.Action("Index", "Home")" class="modern-btn modern-btn-secondary">
+            Retour à l'Accueil
+        </a>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #eef2ff;
+            --secondary: #64748b;
+            --success: #10b981;
+            --surface: #ffffff;
+            --background: #f8fafc;
+            --border: #e2e8f0;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --radius: 12px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --transition: all 0.2s ease;
+        }
+
+        .modern-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .modern-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .modern-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, #3a56d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .modern-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+        }
+
+        .modern-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .modern-stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .modern-stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .modern-stat-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .modern-stat-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text);
+            margin: 0.5rem 0;
+        }
+
+        .modern-stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 1rem 0;
+        }
+
+        .modern-stat-link {
+            display: inline-block;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 1rem;
+            transition: var(--transition);
+        }
+
+        .modern-stat-link:hover {
+            text-decoration: underline;
+        }
+
+        .modern-section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .modern-operations-section,
+        .modern-search-section,
+        .modern-info-section {
+            margin-bottom: 3rem;
+        }
+
+        .modern-operations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .modern-operation-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .modern-op-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .modern-operation-card h4 {
+            font-size: 1.1rem;
+            color: var(--text);
+            margin: 0.5rem 0;
+        }
+
+        .modern-operation-card p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin: 0.5rem 0 1rem;
+        }
+
+        .modern-btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        .modern-search-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .modern-search-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .modern-search-card h4 {
+            font-size: 1.2rem;
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+
+        .modern-form-group {
+            margin-bottom: 1rem;
+        }
+
+        .modern-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .modern-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .modern-btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, #3a56d4 100%);
+            color: white;
+        }
+
+        .modern-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(67, 97, 238, 0.4);
+        }
+
+        .modern-btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .modern-btn-secondary:hover {
+            background: #475569;
+        }
+
+        .modern-info-card {
+            background: var(--primary-light);
+            border: 1px solid var(--primary);
+            border-radius: var(--radius);
+            padding: 2rem;
+        }
+
+        .modern-info-card h3 {
+            color: var(--primary);
+            margin-top: 0;
+        }
+
+        .modern-info-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .modern-info-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text);
+        }
+
+        .modern-info-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .modern-back-section {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        @@media (max-width: 768px) {
+            .modern-title {
+                font-size: 1.8rem;
+            }
+
+            .modern-stats-grid,
+            .modern-operations-grid,
+            .modern-search-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+}

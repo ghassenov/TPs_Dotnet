@@ -1,0 +1,331 @@
+@model List<MoviesCrudApp.Services.CustomerServiceDTO>
+
+@{
+    ViewData["Title"] = ViewBag.Title ?? "Résultats des Services Clients";
+}
+
+<div class="modern-container">
+    <!-- Header -->
+    <div class="modern-result-header">
+        <a href="@Url.Action("Index", "Services")" class="modern-back-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M15 19l-7-7 7-7"/>
+            </svg>
+            Retour aux Services
+        </a>
+        <h1 class="modern-result-title">@ViewBag.Title</h1>
+        <p class="modern-result-description">@ViewBag.Description</p>
+    </div>
+
+    <!-- Results -->
+    @if (Model != null && Model.Count > 0)
+    {
+        <div class="modern-card modern-results-card">
+            <div class="modern-card-header">
+                <h2 class="modern-card-title">
+                    <span class="modern-result-badge">@Model.Count</span>
+                    Résultats
+                </h2>
+            </div>
+
+            <div class="modern-table-container">
+                <table class="modern-results-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Prénom</th>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Téléphone</th>
+                            <th>Type</th>
+                            <th>Réduction</th>
+                            <th>Inscription</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var customer in Model)
+                        {
+                            <tr class="modern-result-row">
+                                <td class="modern-result-id">@customer.Id</td>
+                                <td class="modern-result-name">@customer.FirstName</td>
+                                <td class="modern-result-name">@customer.LastName</td>
+                                <td>
+                                    <a href="mailto:@customer.Email" class="modern-result-link">
+                                        @customer.Email
+                                    </a>
+                                </td>
+                                <td>@customer.Phone</td>
+                                <td>
+                                    <span class="modern-tag">@customer.MembershipTypeName</span>
+                                </td>
+                                <td>
+                                    <span class="modern-tag modern-tag-success">@customer.DiscountRate%</span>
+                                </td>
+                                <td>@customer.RegistrationDate.ToString("dd/MM/yyyy")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="modern-empty-state">
+            <svg class="modern-empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <h3>Aucun résultat</h3>
+            <p>Aucun client ne correspond à vos critères.</p>
+        </div>
+    }
+
+    <!-- Query Info -->
+    <div class="modern-card modern-query-info">
+        <div class="modern-card-header">
+            <h3 class="modern-card-title">📝 Requête LINQ Exécutée</h3>
+        </div>
+        <div class="modern-query-code">
+            <pre>var customers = await _context.Customers
+    .Include(c => c.MembershipType)
+    .Where(c => c.IsSubscribedToNewsletter && c.MembershipType.DiscountRate > 10)
+    .Select(c => new CustomerServiceDTO { ... })
+    .ToListAsync();</pre>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #eef2ff;
+            --secondary: #64748b;
+            --success: #10b981;
+            --surface: #ffffff;
+            --background: #f8fafc;
+            --border: #e2e8f0;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --radius: 12px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.2s ease;
+        }
+
+        .modern-container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .modern-result-header {
+            margin-bottom: 2rem;
+        }
+
+        .modern-back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            transition: var(--transition);
+        }
+
+        .modern-back-link:hover {
+            gap: 1rem;
+        }
+
+        .modern-back-link svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .modern-result-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text);
+            margin: 1rem 0 0.5rem 0;
+            background: linear-gradient(135deg, var(--primary) 0%, #3a56d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .modern-result-description {
+            color: var(--text-light);
+            font-size: 1rem;
+            margin: 0.5rem 0 0 0;
+        }
+
+        .modern-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .modern-card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modern-card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .modern-result-badge {
+            background: var(--primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .modern-table-container {
+            overflow-x: auto;
+        }
+
+        .modern-results-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .modern-results-table thead {
+            background: var(--background);
+        }
+
+        .modern-results-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .modern-results-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        .modern-result-row:hover {
+            background: var(--primary-light);
+        }
+
+        .modern-result-id {
+            font-weight: 600;
+            color: var(--primary);
+            width: 50px;
+        }
+
+        .modern-result-name {
+            font-weight: 500;
+        }
+
+        .modern-result-link {
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .modern-result-link:hover {
+            text-decoration: underline;
+        }
+
+        .modern-tag {
+            display: inline-block;
+            background: var(--background);
+            color: var(--text);
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .modern-tag-success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .modern-empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+        }
+
+        .modern-empty-icon {
+            width: 64px;
+            height: 64px;
+            color: var(--secondary);
+            margin: 0 auto 1rem;
+            opacity: 0.5;
+        }
+
+        .modern-empty-state h3 {
+            font-size: 1.3rem;
+            color: var(--text);
+            margin: 0 0 0.5rem 0;
+        }
+
+        .modern-empty-state p {
+            color: var(--text-light);
+            margin: 0;
+        }
+
+        .modern-query-info {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        .modern-query-info .modern-card-header {
+            border-bottom-color: #334155;
+        }
+
+        .modern-query-info .modern-card-title {
+            color: #e2e8f0;
+        }
+
+        .modern-query-code {
+            padding: 1.5rem;
+        }
+
+        .modern-query-code pre {
+            margin: 0;
+            padding: 1rem;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: #10b981;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            line-height: 1.6;
+        }
+
+        @@media (max-width: 768px) {
+            .modern-result-title {
+                font-size: 1.5rem;
+            }
+
+            .modern-results-table th,
+            .modern-results-table td {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+}

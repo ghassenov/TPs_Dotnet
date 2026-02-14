@@ -1,0 +1,9 @@
+[
+  { 
+    "id": 1, 
+    "title": "Inception", 
+    "genreId": 4, 
+    "stock": 10,
+    "description": "A thief who steals corporate secrets through the use of dream-sharing technology." 
+  }
+]

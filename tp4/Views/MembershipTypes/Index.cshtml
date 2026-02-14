@@ -1,0 +1,472 @@
+@model IEnumerable<MembershipType>
+@using MoviesCrudApp.Models
+
+@{
+    ViewData["Title"] = "Types d'Adhésion";
+}
+
+<div class="modern-container">
+    <!-- Page Header -->
+    <div class="modern-header-row">
+        <div class="modern-header-content">
+            <h1 class="modern-title">💳 @ViewData["Title"]</h1>
+        </div>
+        <div class="modern-header-action">
+            <a asp-action="Create" class="modern-btn modern-btn-primary">
+                <svg class="modern-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M12 4v16m8-8H4"/>
+                </svg>
+                Ajouter un Type
+            </a>
+        </div>
+    </div>
+
+    <!-- Validation Errors -->
+    @if (ViewBag.Errors != null && ((List<string>)ViewBag.Errors).Count > 0)
+    {
+        <div class="modern-alert modern-alert-error">
+            <div class="modern-alert-header">
+                <svg class="modern-alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.694-.833-2.464 0L4.732 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                </svg>
+                <span>Erreurs</span>
+            </div>
+            <ul class="modern-alert-list">
+                @foreach (var error in ViewBag.Errors)
+                {
+                    <li>@error</li>
+                }
+            </ul>
+        </div>
+    }
+
+    <!-- Table of Membership Types -->
+    @if (Model != null && Model.Any())
+    {
+        <div class="modern-card">
+            <div class="modern-table-container">
+                <table class="modern-table modern-table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Réduction</th>
+                            <th>Description</th>
+                            <th class="modern-table-actions">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var type in Model)
+                        {
+                            <tr class="modern-table-row">
+                                <td class="modern-table-bold">@type.Name</td>
+                                <td>
+                                    <span class="modern-tag modern-tag-success">@type.DiscountRate%</span>
+                                </td>
+                                <td class="modern-table-description">@type.Description</td>
+                                <td class="modern-table-actions">
+                                    <div class="modern-action-group">
+                                        <a asp-action="Details" asp-route-id="@type.Id" 
+                                           class="modern-action-btn modern-action-info" title="Détails">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                            </svg>
+                                        </a>
+                                        <a asp-action="Edit" asp-route-id="@type.Id" 
+                                           class="modern-action-btn modern-action-edit" title="Modifier">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                            </svg>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@type.Id" 
+                                           class="modern-action-btn modern-action-delete" title="Supprimer">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="modern-empty-state">
+            <svg class="modern-empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+            </svg>
+            <h3 class="modern-empty-title">Aucun type d'adhésion trouvé</h3>
+            <p class="modern-empty-description">Commencez par créer votre premier type d'adhésion</p>
+            <a asp-action="Create" class="modern-btn modern-btn-primary modern-btn-empty">
+                Créer le premier type
+            </a>
+        </div>
+    }
+</div>
+
+@section Styles {
+    <style>
+        /* Using the same design system */
+        :root {
+            --primary: #4361ee;
+            --primary-light: #eef2ff;
+            --secondary: #64748b;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --info: #0ea5e9;
+            --info-light: #e0f2fe;
+            --surface: #ffffff;
+            --background: #f8fafc;
+            --border: #e2e8f0;
+            --table-border: #f1f5f9;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --radius: 12px;
+            --radius-sm: 8px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --transition: all 0.2s ease;
+        }
+
+        .modern-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .modern-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .modern-header-content {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .modern-header-action {
+            flex-shrink: 0;
+        }
+
+        .modern-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, #3a56d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .modern-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 0;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .modern-table-container {
+            overflow-x: auto;
+        }
+
+        .modern-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        .modern-table th {
+            padding: 1rem 1.5rem;
+            text-align: left;
+            background: linear-gradient(135deg, var(--primary) 0%, #3a56d4 100%);
+            color: white;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border: none;
+        }
+
+        .modern-table td {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--table-border);
+            color: var(--text);
+        }
+
+        .modern-table-striped tbody tr:nth-child(even) {
+            background: var(--background);
+        }
+
+        .modern-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .modern-table-row:hover {
+            background: var(--primary-light);
+        }
+
+        .modern-table-bold {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .modern-table-description {
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: var(--text-light);
+        }
+
+        .modern-table-actions {
+            width: 180px;
+        }
+
+        /* Tags */
+        .modern-tag {
+            display: inline-block;
+            padding: 0.375rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .modern-tag-success {
+            background: linear-gradient(135deg, var(--success) 0%, #0d9c6e 100%);
+        }
+
+        /* Action Buttons */
+        .modern-action-group {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .modern-action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-sm);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid transparent;
+            transition: var(--transition);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .modern-action-btn svg {
+            width: 1.125rem;
+            height: 1.125rem;
+        }
+
+        .modern-action-info {
+            background: transparent;
+            border-color: var(--info);
+            color: var(--info);
+        }
+
+        .modern-action-info:hover {
+            background: var(--info);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .modern-action-edit {
+            background: transparent;
+            border-color: var(--warning);
+            color: var(--warning);
+        }
+
+        .modern-action-edit:hover {
+            background: var(--warning);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .modern-action-delete {
+            background: transparent;
+            border-color: var(--error);
+            color: var(--error);
+        }
+
+        .modern-action-delete:hover {
+            background: var(--error);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Empty State */
+        .modern-empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .modern-empty-icon {
+            width: 64px;
+            height: 64px;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            opacity: 0.6;
+        }
+
+        .modern-empty-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .modern-empty-description {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            font-size: 1.125rem;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .modern-btn-empty {
+            padding: 0.875rem 2.5rem;
+        }
+
+        /* Buttons */
+        .modern-btn {
+            padding: 0.875rem 2rem;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .modern-btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, #3a56d4 100%);
+            color: white;
+        }
+
+        .modern-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(67, 97, 238, 0.3);
+        }
+
+        .modern-btn-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        /* Alerts */
+        .modern-alert {
+            border-radius: var(--radius);
+            padding: 1.25rem;
+            margin-bottom: 2rem;
+            animation: slideIn 0.3s ease;
+        }
+
+        .modern-alert-error {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee 100%);
+            border: 1px solid #fecaca;
+        }
+
+        .modern-alert-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            color: var(--error);
+        }
+
+        .modern-alert-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        .modern-alert-list {
+            margin: 0;
+            padding-left: 1.5rem;
+            color: var(--text);
+        }
+
+        .modern-alert-list li {
+            margin-bottom: 0.25rem;
+        }
+
+        @@keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @@media (max-width: 768px) {
+            .modern-header-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .modern-header-action {
+                width: 100%;
+            }
+
+            .modern-empty-state {
+                padding: 3rem 1.5rem;
+            }
+
+            .modern-empty-icon {
+                width: 48px;
+                height: 48px;
+            }
+
+            .modern-empty-title {
+                font-size: 1.25rem;
+            }
+
+            .modern-empty-description {
+                font-size: 1rem;
+            }
+        }
+
+        @@media (max-width: 640px) {
+            .modern-container {
+                padding: 0 1rem;
+            }
+
+            .modern-title {
+                font-size: 1.75rem;
+            }
+
+            .modern-table {
+                min-width: 600px;
+            }
+        }
+    </style>
+}

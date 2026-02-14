@@ -1,0 +1,490 @@
+@model MoviesCrudApp.Models.Movie
+@using MoviesCrudApp.Models
+
+@{
+    ViewData["Title"] = "Détails du Film";
+}
+
+<div class="modern-container">
+    <!-- Breadcrumb -->
+    <div class="modern-breadcrumb">
+        <a href="@Url.Action("Index")" class="modern-breadcrumb-link">Films</a>
+        <svg class="modern-breadcrumb-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M9 5l7 7-7 7"/>
+        </svg>
+        <span class="modern-breadcrumb-current">@Model.Title</span>
+    </div>
+
+    <div class="modern-detail-grid">
+        <!-- Movie Image -->
+        <div class="modern-detail-image">
+            @if (!string.IsNullOrEmpty(Model.ImageFile))
+            {
+                <img src="~/images/@Model.ImageFile" alt="@Model.Title" class="modern-movie-image-detail" />
+            }
+            else
+            {
+                <div class="modern-image-placeholder-detail">
+                    <svg class="modern-placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                    <p>Pas d'image disponible</p>
+                </div>
+            }
+        </div>
+
+        <!-- Movie Details -->
+        <div class="modern-detail-content">
+            <h1 class="modern-movie-title-detail">@Model.Title</h1>
+
+            <div class="modern-card">
+                <div class="modern-card-header">
+                    <h2 class="modern-card-title">Informations du Film</h2>
+                </div>
+                
+                <div class="modern-content">
+                    <div class="modern-detail-info-grid">
+                        <div class="modern-detail-info-group">
+                            <div class="modern-detail-label">Genre</div>
+                            <div class="modern-tag">@Model.Genre?.Name</div>
+                        </div>
+                        
+                        <div class="modern-detail-info-group">
+                            <div class="modern-detail-label">Note</div>
+                            <div class="modern-tag modern-tag-success">⭐ @Model.Rating/10</div>
+                        </div>
+                        
+                        <div class="modern-detail-info-group">
+                            <div class="modern-detail-label">Date de Sortie</div>
+                            <div class="modern-detail-value-icon">
+                                <svg class="modern-detail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                                @Model.ReleaseDate.ToString("dd/MM/yyyy")
+                            </div>
+                        </div>
+                        
+                        <div class="modern-detail-info-group">
+                            <div class="modern-detail-label">Durée</div>
+                            <div class="modern-detail-value-icon">
+                                <svg class="modern-detail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                @Model.Duration minutes
+                            </div>
+                        </div>
+
+                        <div class="modern-detail-info-group">
+                            <div class="modern-detail-label">Stock</div>
+                            <div class="modern-detail-value-icon">
+                                <svg class="modern-detail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path d="M20 7l-8.97 5.7a1.94 1.94 0 01-2.06 0L4 7m16 0a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V9a2 2 0 012-2h16z"/>
+                                </svg>
+                                @Model.Stock
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modern-detail-divider"></div>
+
+                    <div class="modern-detail-info-group">
+                        <div class="modern-detail-label">Description</div>
+                        <div class="modern-description-detail">@Model.Description</div>
+                    </div>
+
+                    <div class="modern-detail-divider"></div>
+
+                    <div class="modern-detail-info-group">
+                        <div class="modern-detail-label">Date d'Ajout</div>
+                        <div class="modern-tag modern-tag-info">
+                            <svg class="modern-detail-icon-small" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            @Model.DateAjoutMovie.ToString("dd/MM/yyyy HH:mm:ss")
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="modern-form-actions">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="modern-btn modern-btn-warning">
+                    <svg class="modern-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                    </svg>
+                    Modifier
+                </a>
+                
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="modern-btn modern-btn-danger">
+                    <svg class="modern-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                    </svg>
+                    Supprimer
+                </a>
+                
+                <a asp-action="Index" class="modern-btn modern-btn-secondary">
+                    <svg class="modern-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M19 12H5m0 0l7-7m-7 7l7 7"/>
+                    </svg>
+                    Retour
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* Using the same design system */
+        :root {
+            --primary: #4361ee;
+            --primary-light: #eef2ff;
+            --secondary: #64748b;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --info: #0ea5e9;
+            --info-light: #e0f2fe;
+            --surface: #ffffff;
+            --background: #f8fafc;
+            --border: #e2e8f0;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --radius: 16px;
+            --radius-sm: 8px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --transition: all 0.2s ease;
+        }
+
+        .modern-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Breadcrumb */
+        .modern-breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: var(--background);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+        }
+
+        .modern-breadcrumb-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .modern-breadcrumb-link:hover {
+            color: #3a56d4;
+            text-decoration: underline;
+        }
+
+        .modern-breadcrumb-arrow {
+            width: 1rem;
+            height: 1rem;
+            color: var(--text-light);
+        }
+
+        .modern-breadcrumb-current {
+            font-weight: 600;
+            color: var(--text);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Detail Grid */
+        .modern-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2.5rem;
+        }
+
+        @@media (max-width: 768px) {
+            .modern-detail-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+
+        /* Movie Image */
+        .modern-detail-image {
+            width: 100%;
+        }
+
+        .modern-movie-image-detail {
+            width: 100%;
+            height: auto;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            object-fit: cover;
+            aspect-ratio: 2/3;
+        }
+
+        .modern-image-placeholder-detail {
+            width: 100%;
+            height: 100%;
+            min-height: 400px;
+            background: var(--background);
+            border-radius: var(--radius);
+            border: 2px dashed var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            color: var(--text-light);
+        }
+
+        .modern-placeholder-icon {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .modern-image-placeholder-detail p {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        /* Movie Title */
+        .modern-movie-title-detail {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text);
+            margin-bottom: 2rem;
+            line-height: 1.2;
+        }
+
+        @@media (max-width: 640px) {
+            .modern-movie-title-detail {
+                font-size: 2rem;
+            }
+        }
+
+        /* Card */
+        .modern-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+
+        .modern-card-header {
+            padding: 1.5rem 2rem;
+            background: linear-gradient(135deg, var(--primary-light) 0%, #e0e7ff 100%);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modern-card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .modern-content {
+            padding: 2rem;
+        }
+
+        /* Detail Info Grid */
+        .modern-detail-info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @@media (max-width: 640px) {
+            .modern-detail-info-grid {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+        }
+
+        .modern-detail-info-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .modern-detail-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .modern-detail-value-icon {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.125rem;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .modern-detail-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .modern-detail-icon-small {
+            width: 1rem;
+            height: 1rem;
+            color: white;
+            margin-right: 0.375rem;
+        }
+
+        .modern-detail-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 1.5rem 0;
+        }
+
+        /* Description */
+        .modern-description-detail {
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 1.125rem;
+        }
+
+        /* Tags */
+        .modern-tag {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .modern-tag-success {
+            background: linear-gradient(135deg, var(--success) 0%, #0d9c6e 100%);
+        }
+
+        .modern-tag-info {
+            background: linear-gradient(135deg, var(--info) 0%, #0284c7 100%);
+            display: inline-flex;
+            align-items: center;
+        }
+
+        /* Action Buttons */
+        .modern-form-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .modern-btn {
+            padding: 0.875rem 2rem;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .modern-btn-warning {
+            background: linear-gradient(135deg, var(--warning) 0%, #d97706 100%);
+            color: white;
+        }
+
+        .modern-btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.3);
+        }
+
+        .modern-btn-danger {
+            background: linear-gradient(135deg, var(--error) 0%, #b91c1c 100%);
+            color: white;
+        }
+
+        .modern-btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.3);
+        }
+
+        .modern-btn-secondary {
+            background: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--border);
+        }
+
+        .modern-btn-secondary:hover {
+            background: var(--background);
+            border-color: var(--text-light);
+        }
+
+        .modern-btn-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        /* Animations */
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modern-card {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        /* Responsive */
+        @@media (max-width: 640px) {
+            .modern-container {
+                padding: 0 1rem;
+            }
+
+            .modern-content {
+                padding: 1.5rem;
+            }
+
+            .modern-card-header {
+                padding: 1.25rem 1.5rem;
+            }
+
+            .modern-form-actions {
+                flex-direction: column;
+            }
+
+            .modern-btn {
+                width: 100%;
+            }
+
+            .modern-breadcrumb {
+                padding: 0.75rem;
+                font-size: 0.875rem;
+            }
+        }
+    </style>
+}

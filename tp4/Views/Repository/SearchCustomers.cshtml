@@ -1,0 +1,193 @@
+@model List<MoviesCrudApp.Models.Customer>
+
+@{
+    ViewData["Title"] = "Search Customers Results";
+    var searchTerm = ViewBag.SearchTerm ?? "Aucun terme";
+}
+
+<div class="modern-container">
+    <div class="modern-header-row">
+        <div>
+            <a href="@Url.Action("Index", "Repository")" class="modern-back-link">← Retour</a>
+            <h1 class="modern-title">🔍 Résultats Clients: "@searchTerm"</h1>
+        </div>
+    </div>
+
+    @if (Model != null && Model.Count > 0)
+    {
+        <div class="modern-results-info">
+            <span class="modern-results-count">@Model.Count client(s) trouvé(s)</span>
+        </div>
+
+        <div class="modern-table-wrapper">
+            <table class="modern-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Prénom</th>
+                        <th>Nom</th>
+                        <th>Email</th>
+                        <th>Téléphone</th>
+                        <th>Type</th>
+                        <th>Réduction</th>
+                        <th>Newsletter</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var customer in Model)
+                    {
+                        <tr>
+                            <td>@customer.Id</td>
+                            <td>@customer.FirstName</td>
+                            <td>@customer.LastName</td>
+                            <td>@customer.Email</td>
+                            <td>@customer.Phone</td>
+                            <td>@customer.MembershipType?.Name</td>
+                            <td>
+                                <span class="modern-discount-badge">@customer.MembershipType?.DiscountRate.ToString("F0")%</span>
+                            </td>
+                            <td>
+                                @if (customer.IsSubscribedToNewsletter)
+                                {
+                                    <span class="modern-newsletter-badge yes">✓ Oui</span>
+                                }
+                                else
+                                {
+                                    <span class="modern-newsletter-badge no">✕ Non</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="modern-empty-state">
+            <p>Aucun client ne correspond à votre recherche: "@searchTerm"</p>
+        </div>
+    }
+</div>
+
+@section Styles {
+    <style>
+        :root {
+            --primary: #4361ee;
+            --surface: #ffffff;
+            --border: #e2e8f0;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --radius: 12px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+
+        .modern-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .modern-back-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .modern-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text);
+            margin: 0.5rem 0 1rem 0;
+        }
+
+        .modern-results-info {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f0f9ff;
+            border-left: 4px solid var(--primary);
+            border-radius: 4px;
+        }
+
+        .modern-results-count {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .modern-table-wrapper {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .modern-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .modern-table thead {
+            background: linear-gradient(135deg, var(--primary), #6366f1);
+            color: white;
+        }
+
+        .modern-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .modern-table tbody tr {
+            border-top: 1px solid var(--border);
+            transition: background-color 0.2s ease;
+        }
+
+        .modern-table tbody tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .modern-table td {
+            padding: 1rem;
+            color: var(--text);
+        }
+
+        .modern-discount-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .modern-newsletter-badge {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .modern-newsletter-badge.yes {
+            background: var(--success);
+            color: white;
+        }
+
+        .modern-newsletter-badge.no {
+            background: var(--danger);
+            color: white;
+        }
+
+        .modern-empty-state {
+            text-align: center;
+            padding: 3rem;
+        }
+    </style>
+}

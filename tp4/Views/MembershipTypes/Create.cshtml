@@ -1,0 +1,359 @@
+@model MembershipType
+@using MoviesCrudApp.Models
+
+@{
+    ViewData["Title"] = "Créer un Type d'Adhésion";
+}
+
+<div class="modern-container">
+    <!-- Header -->
+    <div class="modern-header">
+        <h1 class="modern-title">💳 @ViewData["Title"]</h1>
+        <p class="modern-subtitle">Définissez un nouveau type d'adhésion et son taux de réduction</p>
+    </div>
+
+    <!-- Errors -->
+    @if (ViewBag.Errors != null && ((List<string>)ViewBag.Errors).Count > 0)
+    {
+        <div class="modern-alert modern-alert-error">
+            <div class="modern-alert-header">
+                <svg class="modern-alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.694-.833-2.464 0L4.732 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                </svg>
+                <span>Erreurs de validation</span>
+            </div>
+            <ul class="modern-alert-list">
+                @foreach (var error in ViewBag.Errors)
+                {
+                    <li>@error</li>
+                }
+            </ul>
+        </div>
+    }
+
+    <!-- Form Card -->
+    <div class="modern-card">
+        <form asp-action="Create" method="post" class="modern-form">
+            <div asp-validation-summary="ModelOnly" class="modern-validation-summary"></div>
+
+            <div class="modern-form-group">
+                <label asp-for="Name" class="modern-form-label">
+                    Nom <span class="modern-required">*</span>
+                </label>
+                <input asp-for="Name" class="modern-input" />
+                <span asp-validation-for="Name" class="modern-error"></span>
+            </div>
+
+            <div class="modern-form-group">
+                <label asp-for="DiscountRate" class="modern-form-label">
+                    Taux de Réduction (%) <span class="modern-required">*</span>
+                </label>
+                <input asp-for="DiscountRate"
+                       type="number"
+                       min="0"
+                       max="100"
+                       step="0.01"
+                       class="modern-input" />
+                <span asp-validation-for="DiscountRate" class="modern-error"></span>
+            </div>
+
+            <div class="modern-form-group">
+                <label asp-for="Description" class="modern-form-label">
+                    Description
+                </label>
+                <textarea asp-for="Description"
+                          class="modern-textarea"
+                          rows="4"
+                          placeholder="Description du type d'adhésion..."></textarea>
+                <span asp-validation-for="Description" class="modern-error"></span>
+            </div>
+
+            <div class="modern-form-actions">
+                <button type="submit" class="modern-btn modern-btn-primary">
+                    <svg class="modern-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                    </svg>
+                    Créer
+                </button>
+
+                <a asp-action="Index" class="modern-btn modern-btn-secondary">
+                    <svg class="modern-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M19 12H5m0 0l7-7m-7 7l7 7"/>
+                    </svg>
+                    Retour
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* Using the same design system */
+        :root {
+            --primary: #4361ee;
+            --primary-light: #eef2ff;
+            --secondary: #64748b;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --surface: #ffffff;
+            --background: #f8fafc;
+            --border: #e2e8f0;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --radius: 12px;
+            --radius-sm: 8px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --transition: all 0.2s ease;
+        }
+
+        .modern-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .modern-header {
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+
+        .modern-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, #3a56d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .modern-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-light);
+            line-height: 1.6;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .modern-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2.5rem;
+            transition: var(--transition);
+            border: 1px solid var(--border);
+        }
+
+        .modern-card:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        .modern-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.75rem;
+        }
+
+        .modern-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .modern-form-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .modern-required {
+            color: var(--error);
+        }
+
+        .modern-input,
+        .modern-textarea {
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            transition: var(--transition);
+            background: var(--surface);
+            color: var(--text);
+            font-family: inherit;
+        }
+
+        .modern-input:focus,
+        .modern-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .modern-textarea {
+            min-height: 120px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+
+        .modern-input::placeholder,
+        .modern-textarea::placeholder {
+            color: #94a3b8;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .modern-error {
+            font-size: 0.875rem;
+            color: var(--error);
+            margin-top: 0.25rem;
+        }
+
+        .modern-form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .modern-btn {
+            padding: 0.875rem 2rem;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .modern-btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, #3a56d4 100%);
+            color: white;
+        }
+
+        .modern-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(67, 97, 238, 0.3);
+        }
+
+        .modern-btn-secondary {
+            background: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--border);
+        }
+
+        .modern-btn-secondary:hover {
+            background: var(--background);
+            border-color: var(--text-light);
+        }
+
+        .modern-btn-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .modern-alert {
+            border-radius: var(--radius);
+            padding: 1.25rem;
+            margin-bottom: 2rem;
+            animation: slideIn 0.3s ease;
+        }
+
+        .modern-alert-error {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee 100%);
+            border: 1px solid #fecaca;
+        }
+
+        .modern-alert-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            color: var(--error);
+        }
+
+        .modern-alert-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        .modern-alert-list {
+            margin: 0;
+            padding-left: 1.5rem;
+            color: var(--text);
+        }
+
+        .modern-alert-list li {
+            margin-bottom: 0.25rem;
+        }
+
+        .modern-validation-summary {
+            display: none;
+        }
+
+        @@keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @@media (max-width: 640px) {
+            .modern-container {
+                padding: 0 1rem;
+            }
+
+            .modern-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .modern-form-actions {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .modern-btn {
+                width: 100%;
+            }
+
+            .modern-title {
+                font-size: 1.75rem;
+            }
+
+            .modern-subtitle {
+                font-size: 1rem;
+            }
+        }
+    </style>
+}
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

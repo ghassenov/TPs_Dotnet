@@ -1,0 +1,360 @@
+@model Customer
+@using MoviesCrudApp.Models
+
+@{
+    ViewData["Title"] = "Modifier le Client";
+}
+
+<div class="modern-container">
+    <div class="modern-header">
+        <h1 class="modern-title">@ViewData["Title"]</h1>
+        <p class="modern-subtitle">Modifiez les informations du client puis enregistrez les changements.</p>
+    </div>
+
+    @if (ViewBag.Errors != null && ((List<string>)ViewBag.Errors).Count > 0)
+    {
+        <div class="modern-alert modern-alert-error">
+            <div class="modern-alert-header">
+                <svg class="modern-alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.694-.833-2.464 0L4.732 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                </svg>
+                <span>Erreurs de validation</span>
+            </div>
+            <ul class="modern-alert-list">
+                @foreach (var error in ViewBag.Errors)
+                {
+                    <li>@error</li>
+                }
+            </ul>
+        </div>
+    }
+
+    <div class="modern-card">
+        <form asp-action="Edit" method="post" class="modern-form">
+            <div asp-validation-summary="ModelOnly" class="modern-validation-summary"></div>
+
+            <input type="hidden" asp-for="Id" />
+
+            <div class="modern-form-grid">
+                <div class="modern-form-group">
+                    <label asp-for="FirstName" class="modern-form-label">
+                        Prénom <span class="modern-required">*</span>
+                    </label>
+                    <input asp-for="FirstName" class="modern-input" />
+                    <span asp-validation-for="FirstName" class="modern-error"></span>
+                </div>
+
+                <div class="modern-form-group">
+                    <label asp-for="LastName" class="modern-form-label">
+                        Nom <span class="modern-required">*</span>
+                    </label>
+                    <input asp-for="LastName" class="modern-input" />
+                    <span asp-validation-for="LastName" class="modern-error"></span>
+                </div>
+            </div>
+
+            <div class="modern-form-group">
+                <label asp-for="Email" class="modern-form-label">
+                    Email <span class="modern-required">*</span>
+                </label>
+                <input asp-for="Email" type="email" class="modern-input" />
+                <span asp-validation-for="Email" class="modern-error"></span>
+            </div>
+
+            <div class="modern-form-group">
+                <label asp-for="Phone" class="modern-form-label">
+                    Téléphone
+                </label>
+                <input asp-for="Phone" type="tel" class="modern-input" />
+                <span asp-validation-for="Phone" class="modern-error"></span>
+            </div>
+
+            <div class="modern-form-group">
+                <label asp-for="MembershipTypeId" class="modern-form-label">
+                    Type d'Adhésion <span class="modern-required">*</span>
+                </label>
+                <select asp-for="MembershipTypeId" class="modern-select">
+                    <option value="">— Sélectionner un type —</option>
+                    @foreach (var membership in ViewBag.MembershipTypes)
+                    {
+                        <option value="@membership.Id"
+                                selected="@(Model.MembershipTypeId == membership.Id)">
+                            @membership.Name – @membership.DiscountRate% de réduction
+                        </option>
+                    }
+                </select>
+                <span asp-validation-for="MembershipTypeId" class="modern-error"></span>
+            </div>
+
+            <div class="modern-form-group">
+                <label class="modern-form-label">
+                    <input asp-for="IsSubscribedToNewsletter" type="checkbox" class="modern-checkbox" />
+                    <span>Abonné à la Lettre d'Actualités</span>
+                </label>
+                <span asp-validation-for="IsSubscribedToNewsletter" class="modern-error"></span>
+            </div>
+
+            <div class="modern-form-actions">
+                <button type="submit" class="modern-btn modern-btn-primary">
+                    <svg class="modern-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
+                        <path d="M17 21v-8H7v8M7 3v5h8"/>
+                    </svg>
+                    Enregistrer
+                </button>
+
+                <a asp-action="Index" class="modern-btn modern-btn-secondary">
+                    Annuler
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* Using the same design system */
+        :root {
+            --primary: #4361ee;
+            --primary-light: #eef2ff;
+            --secondary: #64748b;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --surface: #ffffff;
+            --background: #f8fafc;
+            --border: #e2e8f0;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --radius: 12px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --transition: all 0.2s ease;
+        }
+
+        .modern-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .modern-header {
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+
+        .modern-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, #3a56d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .modern-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .modern-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2.5rem;
+            transition: var(--transition);
+            border: 1px solid var(--border);
+        }
+
+        .modern-card:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        .modern-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.75rem;
+        }
+
+        .modern-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @@media (max-width: 640px) {
+            .modern-form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .modern-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .modern-form-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .modern-required {
+            color: var(--error);
+        }
+
+        .modern-input,
+        .modern-select {
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: var(--surface);
+            color: var(--text);
+        }
+
+        .modern-input:focus,
+        .modern-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .modern-input:disabled {
+            background: var(--background);
+            border-color: var(--border);
+            cursor: not-allowed;
+        }
+
+        .modern-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.25rem;
+            padding-right: 3rem;
+        }
+
+        .modern-error {
+            font-size: 0.875rem;
+            color: var(--error);
+            margin-top: 0.25rem;
+        }
+
+        .modern-form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .modern-btn {
+            padding: 0.875rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .modern-btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, #3a56d4 100%);
+            color: white;
+        }
+
+        .modern-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(67, 97, 238, 0.3);
+        }
+
+        .modern-btn-secondary {
+            background: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--border);
+        }
+
+        .modern-btn-secondary:hover {
+            background: var(--background);
+            border-color: var(--text-light);
+        }
+
+        .modern-btn-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .modern-alert {
+            border-radius: var(--radius);
+            padding: 1.25rem;
+            margin-bottom: 2rem;
+            animation: slideIn 0.3s ease;
+        }
+
+        .modern-alert-error {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee 100%);
+            border: 1px solid #fecaca;
+        }
+
+        .modern-alert-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            color: var(--error);
+        }
+
+        .modern-alert-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        .modern-alert-list {
+            margin: 0;
+            padding-left: 1.5rem;
+            color: var(--text);
+        }
+
+        .modern-alert-list li {
+            margin-bottom: 0.25rem;
+        }
+
+        .modern-validation-summary {
+            display: none;
+        }
+
+        input[type="hidden"] {
+            display: none;
+        }
+
+        @@keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+}
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

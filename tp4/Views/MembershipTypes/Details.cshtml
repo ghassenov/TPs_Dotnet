@@ -1,0 +1,397 @@
+@model MembershipType
+@using MoviesCrudApp.Models
+
+@{
+    ViewData["Title"] = "Détails du Type d'Adhésion";
+}
+
+<div class="modern-container">
+    <!-- Header -->
+    <div class="modern-header">
+        <h1 class="modern-title">💳 @Model.Name</h1>
+        <p class="modern-subtitle">Informations détaillées et clients associés</p>
+    </div>
+
+    <!-- Membership Details Card -->
+    <div class="modern-card">
+        <div class="modern-detail-header">
+            <h2 class="modern-detail-title">Détails du Type d'Adhésion</h2>
+        </div>
+        
+        <div class="modern-detail-content">
+            <div class="modern-detail-group">
+                <div class="modern-detail-label">Taux de Réduction</div>
+                <div class="modern-tag modern-tag-success">
+                    @Model.DiscountRate %
+                </div>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.Description))
+            {
+                <div class="modern-detail-group">
+                    <div class="modern-detail-label">Description</div>
+                    <div class="modern-detail-value">@Model.Description</div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Associated Customers -->
+    @if (Model.Customers != null && Model.Customers.Count > 0)
+    {
+        <div class="modern-section">
+            <h3 class="modern-section-title">
+                <svg class="modern-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                </svg>
+                Clients Associés
+            </h3>
+
+            <div class="modern-table-container">
+                <table class="modern-table modern-table-striped">
+                    <thead>
+                        <tr>
+                            <th>Prénom</th>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Téléphone</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var customer in Model.Customers)
+                        {
+                            <tr class="modern-table-row">
+                                <td>@customer.FirstName</td>
+                                <td>@customer.LastName</td>
+                                <td>
+                                    <a href="mailto:@customer.Email" class="modern-table-link">
+                                        @customer.Email
+                                    </a>
+                                </td>
+                                <td>@customer.Phone</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+
+    <!-- Action Buttons -->
+    <div class="modern-form-actions">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="modern-btn modern-btn-warning">
+            <svg class="modern-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+            </svg>
+            Modifier
+        </a>
+        
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="modern-btn modern-btn-danger">
+            <svg class="modern-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+            </svg>
+            Supprimer
+        </a>
+        
+        <a asp-action="Index" class="modern-btn modern-btn-secondary">
+            <svg class="modern-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M19 12H5m0 0l7-7m-7 7l7 7"/>
+            </svg>
+            Retour
+        </a>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* Using the same design system */
+        :root {
+            --primary: #4361ee;
+            --primary-light: #eef2ff;
+            --secondary: #64748b;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --warning-light: #fef3c7;
+            --surface: #ffffff;
+            --background: #f8fafc;
+            --border: #e2e8f0;
+            --table-border: #f1f5f9;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --radius: 12px;
+            --radius-sm: 8px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --transition: all 0.2s ease;
+        }
+
+        .modern-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .modern-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .modern-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, #3a56d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .modern-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .modern-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .modern-detail-header {
+            padding: 1.5rem 2rem;
+            background: linear-gradient(135deg, var(--primary-light) 0%, #e0e7ff 100%);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modern-detail-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .modern-detail-content {
+            padding: 2rem;
+        }
+
+        .modern-detail-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .modern-detail-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .modern-detail-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .modern-detail-value {
+            font-size: 1.125rem;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .modern-tag {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .modern-tag-success {
+            background: linear-gradient(135deg, var(--success) 0%, #0d9c6e 100%);
+        }
+
+        .modern-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .modern-section-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 1.5rem;
+        }
+
+        .modern-section-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            color: var(--primary);
+        }
+
+        .modern-table-container {
+            overflow-x: auto;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+        }
+
+        .modern-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+
+        .modern-table th {
+            padding: 1rem 1.5rem;
+            text-align: left;
+            background: linear-gradient(135deg, var(--primary) 0%, #3a56d4 100%);
+            color: white;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border: none;
+        }
+
+        .modern-table td {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--table-border);
+            color: var(--text);
+        }
+
+        .modern-table-striped tbody tr:nth-child(even) {
+            background: var(--background);
+        }
+
+        .modern-table-row:hover {
+            background: var(--primary-light);
+        }
+
+        .modern-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .modern-table-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .modern-table-link:hover {
+            color: #3a56d4;
+            text-decoration: underline;
+        }
+
+        .modern-form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2.5rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid var(--border);
+            flex-wrap: wrap;
+        }
+
+        .modern-btn {
+            padding: 0.875rem 2rem;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .modern-btn-warning {
+            background: linear-gradient(135deg, var(--warning) 0%, #d97706 100%);
+            color: white;
+        }
+
+        .modern-btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.3);
+        }
+
+        .modern-btn-danger {
+            background: linear-gradient(135deg, var(--error) 0%, #b91c1c 100%);
+            color: white;
+        }
+
+        .modern-btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.3);
+        }
+
+        .modern-btn-secondary {
+            background: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--border);
+        }
+
+        .modern-btn-secondary:hover {
+            background: var(--background);
+            border-color: var(--text-light);
+        }
+
+        .modern-btn-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        /* Responsive */
+        @@media (max-width: 768px) {
+            .modern-container {
+                padding: 0 1rem;
+            }
+
+            .modern-title {
+                font-size: 2rem;
+            }
+
+            .modern-detail-header {
+                padding: 1.25rem 1.5rem;
+            }
+
+            .modern-detail-content {
+                padding: 1.5rem;
+            }
+
+            .modern-form-actions {
+                flex-direction: column;
+            }
+
+            .modern-btn {
+                width: 100%;
+            }
+
+            .modern-section-title {
+                font-size: 1.125rem;
+            }
+        }
+
+        @@media (max-width: 640px) {
+            .modern-title {
+                font-size: 1.75rem;
+            }
+
+            .modern-table {
+                min-width: 500px;
+            }
+
+            .modern-detail-group {
+                margin-bottom: 1.25rem;
+            }
+        }
+    </style>
+}

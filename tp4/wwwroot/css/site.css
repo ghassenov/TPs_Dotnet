@@ -1,0 +1,312 @@
+/* Modern Layout Design System - site.css */
+:root {
+    --primary: #4361ee;
+    --primary-light: #eef2ff;
+    --secondary: #64748b;
+    --surface: #ffffff;
+    --background: #f8fafc;
+    --text: #1e293b;
+    --text-light: #64748b;
+    --border: #e2e8f0;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --shadow-nav: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --radius: 12px;
+    --transition: all 0.3s ease;
+}
+
+/* Base Styles */
+.modern-body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--background);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Modern Navbar */
+.modern-navbar {
+    background: var(--surface);
+    box-shadow: var(--shadow-nav);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid var(--border);
+}
+
+.modern-navbar-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+}
+
+.modern-navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--text);
+    transition: var(--transition);
+}
+
+.modern-navbar-brand:hover {
+    color: var(--primary);
+}
+
+.modern-navbar-logo {
+    font-size: 1.5rem;
+    background: linear-gradient(135deg, var(--primary) 0%, #3a56d4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.modern-navbar-title {
+    background: linear-gradient(135deg, var(--primary) 0%, #3a56d4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.modern-navbar-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.modern-navbar-toggle-line {
+    width: 24px;
+    height: 2px;
+    background: var(--text);
+    transition: var(--transition);
+    border-radius: 2px;
+}
+
+.modern-navbar-toggle-open .modern-navbar-toggle-line:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.modern-navbar-toggle-open .modern-navbar-toggle-line:nth-child(2) {
+    opacity: 0;
+}
+
+.modern-navbar-toggle-open .modern-navbar-toggle-line:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+}
+
+.modern-navbar-menu {
+    display: flex;
+    align-items: center;
+}
+
+.modern-navbar-nav {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 0.5rem;
+}
+
+.modern-nav-item {
+    position: relative;
+}
+
+.modern-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    text-decoration: none;
+    color: var(--text-light);
+    font-weight: 500;
+    font-size: 0.9375rem;
+    border-radius: var(--radius);
+    transition: var(--transition);
+    position: relative;
+}
+
+.modern-nav-link:hover {
+    color: var(--primary);
+    background: var(--primary-light);
+}
+
+.modern-nav-link-active {
+    color: var(--primary);
+    background: var(--primary-light);
+    font-weight: 600;
+}
+
+.modern-nav-link-active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 1.25rem;
+    right: 1.25rem;
+    height: 2px;
+    background: linear-gradient(135deg, var(--primary) 0%, #3a56d4 100%);
+    border-radius: 1px;
+}
+
+.modern-nav-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+}
+
+/* Main Content */
+.modern-main {
+    flex: 1;
+    padding-bottom: 2rem;
+}
+
+/* Footer */
+.modern-footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 0;
+    margin-top: auto;
+}
+
+.modern-footer-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+}
+
+.modern-footer-text {
+    margin: 0;
+    color: var(--text-light);
+    font-size: 0.875rem;
+}
+
+.modern-footer-text strong {
+    color: var(--text);
+    font-weight: 600;
+}
+
+.modern-footer-links {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.modern-footer-link {
+    color: var(--text-light);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: var(--transition);
+}
+
+.modern-footer-link:hover {
+    color: var(--primary);
+}
+
+.modern-footer-separator {
+    color: var(--border);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .modern-navbar-toggle {
+        display: flex;
+    }
+
+    .modern-navbar-menu {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: var(--surface);
+        box-shadow: var(--shadow-nav);
+        padding: 1rem;
+        flex-direction: column;
+        align-items: stretch;
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition);
+        border-bottom: 1px solid var(--border);
+    }
+
+    .modern-navbar-menu-open {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .modern-navbar-nav {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .modern-nav-link {
+        padding: 1rem 1.25rem;
+        justify-content: flex-start;
+    }
+
+    .modern-nav-link-active::after {
+        left: 1.25rem;
+        right: auto;
+        width: 2px;
+        height: calc(100% - 2rem);
+        bottom: auto;
+        top: 1rem;
+    }
+
+    .modern-footer-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .modern-footer-links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .modern-navbar-container {
+        padding: 0 1rem;
+    }
+
+    .modern-navbar-title {
+        font-size: 1.125rem;
+    }
+
+    .modern-footer {
+        padding: 1rem 0;
+    }
+}
+
+/* Animation for page transitions */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modern-main > * {
+    animation: fadeIn 0.4s ease;
+}

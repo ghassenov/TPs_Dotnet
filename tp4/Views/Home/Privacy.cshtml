@@ -1,0 +1,314 @@
+@{
+    ViewData["Title"] = "Confidentialité";
+}
+
+<div class="modern-container">
+    <!-- Page Header -->
+    <div class="modern-header">
+        <h1 class="modern-title modern-title-privacy">🔒 @ViewData["Title"]</h1>
+        <p class="modern-subtitle">Transparence et protection de vos données personnelles.</p>
+    </div>
+
+    <!-- Content -->
+    <div class="modern-card modern-privacy-card">
+        <p class="modern-privacy-lead">
+            Cette page décrit la politique de confidentialité de l'application
+            et la manière dont les données des utilisateurs sont traitées.
+        </p>
+
+        <div class="modern-privacy-content">
+            <p>
+                Les informations collectées sont utilisées uniquement dans le cadre
+                du fonctionnement de l'application (gestion des films, des clients
+                et des types d'adhésion). Aucune donnée personnelle n'est partagée
+                avec des tiers sans consentement explicite.
+            </p>
+
+            <p>
+                Pour toute question concernant la confidentialité ou la sécurité
+                des données, veuillez contacter l'administrateur de l'application.
+            </p>
+        </div>
+
+        <div class="modern-privacy-features">
+            <div class="modern-privacy-feature">
+                <div class="modern-privacy-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4"/>
+                    </svg>
+                </div>
+                <div>
+                    <h4>Données sécurisées</h4>
+                    <p>Protection avancée des informations sensibles</p>
+                </div>
+            </div>
+
+            <div class="modern-privacy-feature">
+                <div class="modern-privacy-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h4>Transparence totale</h4>
+                    <p>Vous contrôlez vos données à tout moment</p>
+                </div>
+            </div>
+
+            <div class="modern-privacy-feature">
+                <div class="modern-privacy-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M13 16h-1v-4h1m0-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h4>Conformité RGPD</h4>
+                    <p>Respect des réglementations en vigueur</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* Using the same design system */
+        :root {
+            --primary: #4361ee;
+            --primary-light: #eef2ff;
+            --secondary: #64748b;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --surface: #ffffff;
+            --background: #f8fafc;
+            --border: #e2e8f0;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --privacy: #8b5cf6;
+            --privacy-light: #f5f3ff;
+            --radius: 16px;
+            --radius-sm: 8px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 40px rgba(0, 0, 0, 0.12);
+            --transition: all 0.3s ease;
+        }
+
+        .modern-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header */
+        .modern-header {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .modern-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, #3a56d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .modern-title-privacy {
+            background: linear-gradient(135deg, var(--privacy) 0%, #7c3aed 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .modern-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Privacy Card */
+        .modern-privacy-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 3rem;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .modern-privacy-card:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* Lead Text */
+        .modern-privacy-lead {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--text);
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--privacy-light);
+        }
+
+        /* Content */
+        .modern-privacy-content {
+            margin-bottom: 3rem;
+        }
+
+        .modern-privacy-content p {
+            color: var(--text);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            font-size: 1.125rem;
+        }
+
+        .modern-privacy-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Features */
+        .modern-privacy-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            padding-top: 3rem;
+            border-top: 2px solid var(--privacy-light);
+        }
+
+        .modern-privacy-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: var(--privacy-light);
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+
+        .modern-privacy-feature:hover {
+            border-color: var(--privacy);
+            transform: translateY(-4px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.15);
+        }
+
+        .modern-privacy-icon {
+            flex-shrink: 0;
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(135deg, var(--privacy) 0%, #7c3aed 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            padding: 0.75rem;
+        }
+
+        .modern-privacy-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke-width: 2;
+        }
+
+        .modern-privacy-feature h4 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.375rem;
+        }
+
+        .modern-privacy-feature p {
+            font-size: 0.875rem;
+            color: var(--text-light);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* Responsive */
+        @@media (max-width: 768px) {
+            .modern-title {
+                font-size: 2rem;
+            }
+
+            .modern-subtitle {
+                font-size: 1.125rem;
+            }
+
+            .modern-privacy-card {
+                padding: 2rem;
+            }
+
+            .modern-privacy-lead {
+                font-size: 1.125rem;
+                margin-bottom: 2rem;
+                padding-bottom: 1.5rem;
+            }
+
+            .modern-privacy-content p {
+                font-size: 1rem;
+            }
+
+            .modern-privacy-features {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                margin-top: 2rem;
+                padding-top: 2rem;
+            }
+
+            .modern-privacy-feature {
+                padding: 1.25rem;
+            }
+        }
+
+        @@media (max-width: 480px) {
+            .modern-title {
+                font-size: 1.75rem;
+            }
+
+            .modern-privacy-card {
+                padding: 1.5rem;
+            }
+
+            .modern-privacy-icon {
+                width: 40px;
+                height: 40px;
+                padding: 0.5rem;
+            }
+
+            .modern-privacy-icon svg {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        /* Animation */
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modern-privacy-card {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        .modern-privacy-feature {
+            animation: fadeIn 0.6s ease forwards;
+            animation-delay: calc(var(--i, 0) * 0.1s);
+        }
+    </style>
+}

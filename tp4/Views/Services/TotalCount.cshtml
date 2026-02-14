@@ -1,0 +1,251 @@
+@{
+    ViewData["Title"] = ViewBag.Title ?? "Nombre Total de Films";
+    var count = ViewBag.Count;
+}
+
+<div class="modern-container">
+    <!-- Header -->
+    <div class="modern-result-header">
+        <a href="@Url.Action("Index", "Services")" class="modern-back-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M15 19l-7-7 7-7"/>
+            </svg>
+            Retour aux Services
+        </a>
+        <h1 class="modern-result-title">@ViewBag.Title</h1>
+        <p class="modern-result-description">@ViewBag.Description</p>
+    </div>
+
+    <!-- Result Card -->
+    <div class="modern-count-card">
+        <div class="modern-count-header">
+            <h2>Total de Films</h2>
+        </div>
+        <div class="modern-count-display">
+            <div class="modern-count-number">@count</div>
+            <div class="modern-count-label">film@(count != 1 ? "s" : "") en base de données</div>
+        </div>
+        <div class="modern-count-footer">
+            <p class="modern-count-method">
+                <strong>Méthode:</strong> <code>_context.Movies.CountAsync()</code>
+            </p>
+        </div>
+    </div>
+
+    <!-- Info Box -->
+    <div class="modern-card modern-info-box">
+        <div class="modern-card-header">
+            <h3 class="modern-card-title">📊 Informations</h3>
+        </div>
+        <div class="modern-card-content">
+            <p>
+                Cette méthode utilise Entity Framework Core pour compter le nombre total de films 
+                stockés dans la base de données. C'est une opération très efficace qui utilise 
+                <code>COUNT(*)</code> au niveau de la base de données.
+            </p>
+            <div class="modern-code-block">
+                <pre>public async Task&lt;int&gt; GetTotalMovieCountAsync()
+{
+    var count = await _context.Movies.CountAsync();
+    return count;
+}</pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #eef2ff;
+            --secondary: #64748b;
+            --success: #10b981;
+            --surface: #ffffff;
+            --background: #f8fafc;
+            --border: #e2e8f0;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --radius: 12px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.2s ease;
+        }
+
+        .modern-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .modern-result-header {
+            margin-bottom: 2rem;
+        }
+
+        .modern-back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            transition: var(--transition);
+        }
+
+        .modern-back-link:hover {
+            gap: 1rem;
+        }
+
+        .modern-back-link svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .modern-result-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text);
+            margin: 1rem 0 0.5rem 0;
+            background: linear-gradient(135deg, var(--primary) 0%, #3a56d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .modern-result-description {
+            color: var(--text-light);
+            font-size: 1rem;
+            margin: 0.5rem 0 0 0;
+        }
+
+        .modern-count-card {
+            background: linear-gradient(135deg, var(--primary) 0%, #3a56d4 100%);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .modern-count-header {
+            background: rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            color: white;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .modern-count-header h2 {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .modern-count-display {
+            padding: 3rem;
+            text-align: center;
+            color: white;
+        }
+
+        .modern-count-number {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+
+        .modern-count-label {
+            font-size: 1.3rem;
+            opacity: 0.95;
+        }
+
+        .modern-count-footer {
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .modern-count-method {
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        .modern-count-method code {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .modern-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .modern-card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modern-card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .modern-card-content {
+            padding: 1.5rem;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .modern-card-content p {
+            margin: 0 0 1rem 0;
+        }
+
+        .modern-card-content code {
+            background: var(--background);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        .modern-code-block {
+            margin-top: 1.5rem;
+        }
+
+        .modern-code-block pre {
+            background: #1e293b;
+            color: #10b981;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .modern-info-box {
+            margin-top: 2rem;
+        }
+
+        @@media (max-width: 768px) {
+            .modern-result-title {
+                font-size: 1.5rem;
+            }
+
+            .modern-count-number {
+                font-size: 3rem;
+            }
+
+            .modern-count-display {
+                padding: 2rem;
+            }
+        }
+    </style>
+}

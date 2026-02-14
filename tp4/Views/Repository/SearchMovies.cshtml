@@ -1,0 +1,177 @@
+@model List<MoviesCrudApp.Models.Movie>
+
+@{
+    ViewData["Title"] = "Search Movies Results";
+    var searchTerm = ViewBag.SearchTerm ?? "Aucun terme";
+}
+
+<div class="modern-container">
+    <div class="modern-header-row">
+        <div>
+            <a href="@Url.Action("Index", "Repository")" class="modern-back-link">← Retour</a>
+            <h1 class="modern-title">🔍 Résultats Films: "@searchTerm"</h1>
+        </div>
+    </div>
+
+    @if (Model != null && Model.Count > 0)
+    {
+        <div class="modern-results-info">
+            <span class="modern-results-count">@Model.Count film(s) trouvé(s)</span>
+        </div>
+
+        <div class="modern-table-wrapper">
+            <table class="modern-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Titre</th>
+                        <th>Description</th>
+                        <th>Genre</th>
+                        <th>Stock</th>
+                        <th>Note</th>
+                        <th>Durée</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var movie in Model)
+                    {
+                        <tr>
+                            <td>@movie.Id</td>
+                            <td>@movie.Title</td>
+                            <td class="modern-truncate">@movie.Description</td>
+                            <td>@movie.Genre?.Name</td>
+                            <td>
+                                <span class="modern-stock-badge">@movie.Stock</span>
+                            </td>
+                            <td>
+                                <span class="modern-rating">★ @movie.Rating.ToString("F1")</span>
+                            </td>
+                            <td>@movie.Duration min</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="modern-empty-state">
+            <p>Aucun film ne correspond à votre recherche: "@searchTerm"</p>
+        </div>
+    }
+</div>
+
+@section Styles {
+    <style>
+        :root {
+            --primary: #4361ee;
+            --surface: #ffffff;
+            --border: #e2e8f0;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --radius: 12px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --warning: #f59e0b;
+        }
+
+        .modern-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .modern-back-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .modern-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text);
+            margin: 0.5rem 0 1rem 0;
+        }
+
+        .modern-results-info {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f0f9ff;
+            border-left: 4px solid var(--primary);
+            border-radius: 4px;
+        }
+
+        .modern-results-count {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .modern-table-wrapper {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .modern-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .modern-table thead {
+            background: linear-gradient(135deg, var(--primary), #6366f1);
+            color: white;
+        }
+
+        .modern-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .modern-table tbody tr {
+            border-top: 1px solid var(--border);
+            transition: background-color 0.2s ease;
+        }
+
+        .modern-table tbody tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .modern-table td {
+            padding: 1rem;
+            color: var(--text);
+        }
+
+        .modern-truncate {
+            max-width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .modern-stock-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .modern-rating {
+            color: var(--warning);
+            font-weight: 600;
+        }
+
+        .modern-empty-state {
+            text-align: center;
+            padding: 3rem;
+        }
+    </style>
+}

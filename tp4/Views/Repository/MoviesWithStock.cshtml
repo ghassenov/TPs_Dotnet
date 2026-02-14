@@ -1,0 +1,150 @@
+@model List<MoviesCrudApp.Models.Movie>
+
+@{
+    ViewData["Title"] = "Movies with Stock";
+}
+
+<div class="modern-container">
+    <div class="modern-header-row">
+        <div>
+            <a href="@Url.Action("Index", "Repository")" class="modern-back-link">← Retour</a>
+            <h1 class="modern-title">📦 Films en Stock</h1>
+        </div>
+    </div>
+
+    @if (Model != null && Model.Count > 0)
+    {
+        <div class="modern-table-wrapper">
+            <table class="modern-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Titre</th>
+                        <th>Genre</th>
+                        <th>Stock</th>
+                        <th>Note</th>
+                        <th>Date de sortie</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var movie in Model)
+                    {
+                        <tr>
+                            <td>@movie.Id</td>
+                            <td>@movie.Title</td>
+                            <td>@movie.Genre?.Name</td>
+                            <td>
+                                <span class="modern-stock-badge">@movie.Stock</span>
+                            </td>
+                            <td>
+                                <span class="modern-rating">★ @movie.Rating.ToString("F1")</span>
+                            </td>
+                            <td>@movie.ReleaseDate.ToString("dd/MM/yyyy")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="modern-empty-state">
+            <p>Aucun film en stock.</p>
+        </div>
+    }
+</div>
+
+@section Styles {
+    <style>
+        :root {
+            --primary: #4361ee;
+            --surface: #ffffff;
+            --border: #e2e8f0;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --radius: 12px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --warning: #f59e0b;
+        }
+
+        .modern-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .modern-back-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .modern-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text);
+            margin: 0.5rem 0 2rem 0;
+        }
+
+        .modern-table-wrapper {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .modern-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .modern-table thead {
+            background: linear-gradient(135deg, var(--primary), #6366f1);
+            color: white;
+        }
+
+        .modern-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .modern-table tbody tr {
+            border-top: 1px solid var(--border);
+            transition: background-color 0.2s ease;
+        }
+
+        .modern-table tbody tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .modern-table td {
+            padding: 1rem;
+            color: var(--text);
+        }
+
+        .modern-stock-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .modern-rating {
+            color: var(--warning);
+            font-weight: 600;
+        }
+
+        .modern-empty-state {
+            text-align: center;
+            padding: 3rem;
+        }
+    </style>
+}

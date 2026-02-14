@@ -1,0 +1,203 @@
+@model List<MoviesCrudApp.Models.Customer>
+
+@{
+    ViewData["Title"] = "Clients du Repository";
+}
+
+<div class="modern-container">
+    <div class="modern-header-row">
+        <div>
+            <a href="@Url.Action("Index", "Repository")" class="modern-back-link">← Retour</a>
+            <h1 class="modern-title">👥 Clients du Repository</h1>
+        </div>
+    </div>
+
+    @if (Model != null && Model.Count > 0)
+    {
+        <div class="modern-card">
+            <div class="modern-card-header">
+                <h2 class="modern-card-title">
+                    <span class="modern-badge">@Model.Count</span>
+                    Clients trouvés
+                </h2>
+            </div>
+
+            <div class="modern-table-container">
+                <table class="modern-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Prénom</th>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Type</th>
+                            <th>Réduction</th>
+                            <th>Newsletter</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var customer in Model)
+                        {
+                            <tr class="modern-table-row">
+                                <td class="modern-table-id">@customer.Id</td>
+                                <td>@customer.FirstName</td>
+                                <td>@customer.LastName</td>
+                                <td>@customer.Email</td>
+                                <td>
+                                    <span class="modern-tag">@customer.MembershipType?.Name</span>
+                                </td>
+                                <td>
+                                    <span class="modern-tag modern-tag-info">@customer.MembershipType?.DiscountRate%</span>
+                                </td>
+                                <td>
+                                    @if (customer.IsSubscribedToNewsletter)
+                                    {
+                                        <span class="modern-tag modern-tag-success">✓ Oui</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="modern-tag modern-tag-default">✕ Non</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="modern-empty-state">
+            <p>Aucun client trouvé.</p>
+        </div>
+    }
+</div>
+
+@section Styles {
+    <style>
+        :root {
+            --primary: #4361ee;
+            --surface: #ffffff;
+            --background: #f8fafc;
+            --border: #e2e8f0;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --radius: 12px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .modern-container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .modern-header-row {
+            margin-bottom: 2rem;
+        }
+
+        .modern-back-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .modern-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text);
+            margin: 0.5rem 0;
+        }
+
+        .modern-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .modern-card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modern-card-title {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .modern-badge {
+            background: var(--primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .modern-table-container {
+            overflow-x: auto;
+        }
+
+        .modern-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .modern-table thead {
+            background: var(--background);
+        }
+
+        .modern-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .modern-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modern-table-row:hover {
+            background: var(--background);
+        }
+
+        .modern-table-id {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .modern-tag {
+            display: inline-block;
+            background: var(--background);
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .modern-tag-success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .modern-tag-info {
+            background: #cffafe;
+            color: #164e63;
+        }
+
+        .modern-tag-default {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .modern-empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-light);
+        }
+    </style>
+}

@@ -1,0 +1,325 @@
+@{
+    ViewData["Title"] = "Services LINQ";
+}
+
+<div class="modern-container">
+    <!-- Header -->
+    <div class="modern-header">
+        <h1 class="modern-title">⚙️ Services LINQ et Entity Framework</h1>
+        <p class="modern-subtitle">Testez les 6 méthodes du service MovieService</p>
+    </div>
+
+    <!-- Services Grid -->
+    <div class="modern-services-grid">
+        <!-- Service 1 -->
+        <div class="modern-service-card">
+            <div class="modern-service-icon">🎬</div>
+            <h3 class="modern-service-title">Films Action avec Stock</h3>
+            <p class="modern-service-description">
+                Récupère tous les films du genre "Action" avec un stock disponible (Stock > 0)
+            </p>
+            <div class="modern-service-query">
+                <code>Where(m => m.Genre.Name == "Action" && m.Stock > 0)</code>
+            </div>
+            <a asp-action="ActionMoviesWithStock" class="modern-btn modern-btn-primary modern-service-btn">
+                <svg class="modern-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M9 5l7 7-7 7"/>
+                </svg>
+                Exécuter
+            </a>
+        </div>
+
+        <!-- Service 2 -->
+        <div class="modern-service-card">
+            <div class="modern-service-icon">📅</div>
+            <h3 class="modern-service-title">Films Triés</h3>
+            <p class="modern-service-description">
+                Affiche tous les films ordonnés par date de sortie, puis par titre
+            </p>
+            <div class="modern-service-query">
+                <code>OrderBy(m => m.ReleaseDate).ThenBy(m => m.Title)</code>
+            </div>
+            <a asp-action="MoviesSorted" class="modern-btn modern-btn-primary modern-service-btn">
+                <svg class="modern-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M9 5l7 7-7 7"/>
+                </svg>
+                Exécuter
+            </a>
+        </div>
+
+        <!-- Service 3 -->
+        <div class="modern-service-card">
+            <div class="modern-service-icon">📊</div>
+            <h3 class="modern-service-title">Nombre Total de Films</h3>
+            <p class="modern-service-description">
+                Compte le nombre total de films dans la base de données
+            </p>
+            <div class="modern-service-query">
+                <code>Count()</code>
+            </div>
+            <a asp-action="TotalMovieCount" class="modern-btn modern-btn-primary modern-service-btn">
+                <svg class="modern-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M9 5l7 7-7 7"/>
+                </svg>
+                Exécuter
+            </a>
+        </div>
+
+        <!-- Service 4 -->
+        <div class="modern-service-card">
+            <div class="modern-service-icon">👥</div>
+            <h3 class="modern-service-title">Clients Newsletter Premium</h3>
+            <p class="modern-service-description">
+                Clients abonnés à la newsletter avec réduction > 10%
+            </p>
+            <div class="modern-service-query">
+                <code>Where(c => c.IsSubscribedToNewsletter && c.MembershipType.DiscountRate > 10)</code>
+            </div>
+            <a asp-action="SubscribedCustomersHighDiscount" class="modern-btn modern-btn-primary modern-service-btn">
+                <svg class="modern-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M9 5l7 7-7 7"/>
+                </svg>
+                Exécuter
+            </a>
+        </div>
+
+        <!-- Service 5 -->
+        <div class="modern-service-card">
+            <div class="modern-service-icon">🎭</div>
+            <h3 class="modern-service-title">Films avec Genres</h3>
+            <p class="modern-service-description">
+                Jointure Movie-Genre au format "Titre - Genre"
+            </p>
+            <div class="modern-service-query">
+                <code>Select(m => Title + " - " + Genre.Name)</code>
+            </div>
+            <a asp-action="MoviesWithGenres" class="modern-btn modern-btn-primary modern-service-btn">
+                <svg class="modern-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M9 5l7 7-7 7"/>
+                </svg>
+                Exécuter
+            </a>
+        </div>
+
+        <!-- Service 6 -->
+        <div class="modern-service-card">
+            <div class="modern-service-icon">🏆</div>
+            <h3 class="modern-service-title">Top 3 Genres</h3>
+            <p class="modern-service-description">
+                Les 3 genres avec le plus grand nombre de films
+            </p>
+            <div class="modern-service-query">
+                <code>GroupBy(g => g.Name).Count().OrderByDescending().Take(3)</code>
+            </div>
+            <a asp-action="Top3GenresWithMostMovies" class="modern-btn modern-btn-primary modern-service-btn">
+                <svg class="modern-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M9 5l7 7-7 7"/>
+                </svg>
+                Exécuter
+            </a>
+        </div>
+    </div>
+
+    <!-- Back Button -->
+    <div class="modern-back-section">
+        <a href="@Url.Action("Index", "Home")" class="modern-btn modern-btn-secondary">
+            <svg class="modern-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M19 12H5m0 0l7-7m-7 7l7 7"/>
+            </svg>
+            Retour à l'Accueil
+        </a>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #eef2ff;
+            --secondary: #64748b;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --surface: #ffffff;
+            --background: #f8fafc;
+            --border: #e2e8f0;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --radius: 12px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --transition: all 0.2s ease;
+        }
+
+        .modern-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .modern-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .modern-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, #3a56d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .modern-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin: 0;
+        }
+
+        .modern-services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .modern-service-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centrer tout le contenu */
+            text-align: center; /* Centrer le texte */
+        }
+
+        .modern-service-card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-4px);
+            border-color: var(--primary);
+        }
+
+        .modern-service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .modern-service-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text);
+            margin: 0 0 0.5rem 0;
+            width: 100%; /* Prendre toute la largeur pour centrer le texte */
+        }
+
+        .modern-service-description {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin: 0 0 1.5rem 0;
+            line-height: 1.6;
+            width: 100%; /* Prendre toute la largeur */
+        }
+
+        .modern-service-query {
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.75rem;
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+            width: 100%; /* Prendre toute la largeur */
+            text-align: left; /* Garder le code aligné à gauche */
+        }
+
+        .modern-service-query code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: var(--primary);
+            white-space: nowrap;
+        }
+
+        .modern-service-btn {
+            width: 100%;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: auto; /* Pousser le bouton vers le bas */
+        }
+
+        .modern-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center; /* Centrer horizontalement */
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            width: 100%; /* Prendre toute la largeur disponible */
+            max-width: 250px; /* Limiter la largeur max */
+        }
+
+        .modern-btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, #3a56d4 100%);
+            color: white;
+        }
+
+        .modern-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(67, 97, 238, 0.4);
+        }
+
+        .modern-btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .modern-btn-secondary:hover {
+            background: #475569;
+        }
+
+        .modern-btn-icon {
+            width: 20px;
+            height: 20px;
+            stroke-width: 2;
+        }
+
+        .modern-back-section {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Style spécifique pour les boutons dans les cartes */
+        .modern-service-card .modern-btn {
+            margin: 0 auto; /* Centrer horizontalement */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @@media (max-width: 768px) {
+            .modern-title {
+                font-size: 1.8rem;
+            }
+
+            .modern-services-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .modern-service-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+}
