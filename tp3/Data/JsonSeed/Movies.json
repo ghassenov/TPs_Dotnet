@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "title": "The Shawshank Redemption",
+    "description": "Deux hommes emprisonnés créent un lien fort au fil des années.",
+    "releaseDate": "1994-09-23",
+    "duration": 142,
+    "rating": 9.3,
+    "genreId": 3,
+    "imageFile": "shawshank.jpg",
+    "dateAjoutMovie": "2024-10-13T14:14:02"
+  },
+  {
+    "id": 2,
+    "title": "The Godfather",
+    "description": "Le patriarche vieillissant d'une dynastie criminelle transfère le contrôle à son fils réticent.",
+    "releaseDate": "1972-03-24",
+    "duration": 175,
+    "rating": 9.2,
+    "genreId": 3,
+    "imageFile": "godfather.jpg",
+    "dateAjoutMovie": "2024-10-13T14:14:02"
+  },
+  {
+    "id": 3,
+    "title": "The Dark Knight",
+    "description": "Batman affronte le Joker dans une bataille pour l'âme de Gotham City.",
+    "releaseDate": "2008-07-18",
+    "duration": 152,
+    "rating": 9.0,
+    "genreId": 1,
+    "imageFile": "darkknight.jpg",
+    "dateAjoutMovie": "2024-10-13T14:14:02"
+  },
+  {
+    "id": 4,
+    "title": "Pulp Fiction",
+    "description": "Les vies de deux tueurs à gages, d'un boxeur et d'un gangster s'entremêlent.",
+    "releaseDate": "1994-10-14",
+    "duration": 154,
+    "rating": 8.9,
+    "genreId": 1,
+    "imageFile": "pulpfiction.jpg",
+    "dateAjoutMovie": "2024-10-13T14:14:02"
+  }
+]

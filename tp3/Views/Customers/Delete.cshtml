@@ -1,0 +1,341 @@
+@model Customer
+@using MoviesCrudApp.Models
+
+@{
+    ViewData["Title"] = "Supprimer le Client";
+}
+
+<div class="modern-container">
+    <div class="modern-header">
+        <h1 class="modern-title modern-title-danger">@ViewData["Title"]</h1>
+        <p class="modern-subtitle">Vérifiez les informations du client avant de confirmer la suppression.</p>
+    </div>
+
+    <div class="modern-alert modern-alert-warning">
+        <div class="modern-alert-header">
+            <svg class="modern-alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.694-.833-2.464 0L4.732 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+            </svg>
+            <span>Action irréversible</span>
+        </div>
+        <p>Cette action est <strong>définitive</strong>. Toutes les données associées à ce client seront supprimées.</p>
+    </div>
+
+    <div class="modern-card">
+        <div class="modern-card-header modern-card-header-danger">
+            <h2 class="modern-card-title">Informations du Client</h2>
+        </div>
+        
+        <div class="modern-content">
+            <div class="modern-form-grid">
+                <div class="modern-info-group">
+                    <div class="modern-info-label">Prénom</div>
+                    <div class="modern-info-value">@Model.FirstName</div>
+                </div>
+
+                <div class="modern-info-group">
+                    <div class="modern-info-label">Nom</div>
+                    <div class="modern-info-value">@Model.LastName</div>
+                </div>
+            </div>
+
+            <div class="modern-divider"></div>
+
+            <div class="modern-form-grid">
+                <div class="modern-info-group">
+                    <div class="modern-info-label">Email</div>
+                    <a href="mailto:@Model.Email" class="modern-info-link">@Model.Email</a>
+                </div>
+
+                <div class="modern-info-group">
+                    <div class="modern-info-label">Téléphone</div>
+                    <div class="modern-info-value">@Model.Phone</div>
+                </div>
+            </div>
+
+            <div class="modern-divider"></div>
+
+            <div class="modern-info-group">
+                <div class="modern-info-label">Type d'Adhésion</div>
+                <div class="modern-tag">@Model.MembershipType?.Name</div>
+            </div>
+        </div>
+    </div>
+
+    <form asp-action="Delete" method="post" class="modern-confirm-form">
+        <input type="hidden" name="id" value="@Model.Id" />
+        
+        <div class="modern-form-actions modern-form-actions-danger">
+            <button type="submit" class="modern-btn modern-btn-danger">
+                <svg class="modern-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                </svg>
+                Supprimer
+            </button>
+
+            <a asp-action="Index" class="modern-btn modern-btn-secondary">
+                Annuler
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Styles {
+    <style>
+        /* Reusing the same design system with additions */
+        :root {
+            --primary: #4361ee;
+            --primary-light: #eef2ff;
+            --secondary: #64748b;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --warning-light: #fef3c7;
+            --warning-border: #fde68a;
+            --danger: #dc2626;
+            --danger-light: #fee2e2;
+            --surface: #ffffff;
+            --background: #f8fafc;
+            --border: #e2e8f0;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --radius: 12px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --transition: all 0.2s ease;
+        }
+
+        .modern-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .modern-header {
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+
+        .modern-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, #3a56d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .modern-title-danger {
+            background: linear-gradient(135deg, var(--danger) 0%, #b91c1c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .modern-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .modern-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+        }
+
+        .modern-card-header {
+            padding: 1.5rem 2rem;
+            background: var(--primary-light);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modern-card-header-danger {
+            background: linear-gradient(135deg, var(--danger-light) 0%, #fecaca 100%);
+            border-bottom: 1px solid var(--danger);
+        }
+
+        .modern-card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .modern-content {
+            padding: 2rem;
+        }
+
+        .modern-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @@media (max-width: 640px) {
+            .modern-form-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+
+        .modern-info-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .modern-info-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .modern-info-value {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text);
+            line-height: 1.5;
+        }
+
+        .modern-info-link {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .modern-info-link:hover {
+            color: #3a56d4;
+            text-decoration: underline;
+        }
+
+        .modern-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 2rem 0;
+        }
+
+        .modern-tag {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, var(--primary) 0%, #3a56d4 100%);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-top: 0.25rem;
+        }
+
+        .modern-alert {
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            animation: slideIn 0.3s ease;
+        }
+
+        .modern-alert-warning {
+            background: linear-gradient(135deg, var(--warning-light) 0%, #fef3c7 100%);
+            border: 1px solid var(--warning-border);
+        }
+
+        .modern-alert-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            color: var(--warning);
+        }
+
+        .modern-alert-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        .modern-alert p {
+            margin: 0;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .modern-alert strong {
+            color: var(--text);
+        }
+
+        .modern-confirm-form {
+            margin-top: 2rem;
+        }
+
+        .modern-form-actions {
+            display: flex;
+            gap: 1rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .modern-form-actions-danger {
+            border-top-color: var(--danger-light);
+        }
+
+        .modern-btn {
+            padding: 0.875rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .modern-btn-danger {
+            background: linear-gradient(135deg, var(--danger) 0%, #b91c1c 100%);
+            color: white;
+        }
+
+        .modern-btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.3);
+        }
+
+        .modern-btn-secondary {
+            background: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--border);
+        }
+
+        .modern-btn-secondary:hover {
+            background: var(--background);
+            border-color: var(--text-light);
+        }
+
+        .modern-btn-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        @@keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+}

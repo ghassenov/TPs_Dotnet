@@ -1,0 +1,323 @@
+@model MoviesCrudApp.Models.ErrorViewModel
+@{
+    ViewData["Title"] = "Erreur";
+}
+
+<div class="modern-error-container">
+    <div class="modern-error-content">
+        <div class="modern-error-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        
+        <h1 class="modern-error-title">Erreur</h1>
+        <h2 class="modern-error-subtitle">Une erreur inattendue s'est produite.</h2>
+
+        @if (Model.ShowRequestId)
+        {
+            <div class="modern-error-details">
+                <div class="modern-error-detail-label">ID de la demande :</div>
+                <code class="modern-error-detail-value">@Model.RequestId</code>
+            </div>
+        }
+
+        <p class="modern-error-message">
+            Veuillez réessayer ou contactez l'administrateur si le problème persiste.
+        </p>
+
+        <div class="modern-error-actions">
+            <a href="javascript:history.back()" class="modern-btn modern-btn-secondary">
+                <svg class="modern-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                Retour
+            </a>
+            <a href="/" class="modern-btn modern-btn-primary">
+                <svg class="modern-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                </svg>
+                Accueil
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* Using the same design system */
+        :root {
+            --primary: #4361ee;
+            --primary-light: #eef2ff;
+            --secondary: #64748b;
+            --success: #10b981;
+            --error: #ef4444;
+            --error-light: #fee2e2;
+            --error-dark: #b91c1c;
+            --warning: #f59e0b;
+            --surface: #ffffff;
+            --background: #f8fafc;
+            --border: #e2e8f0;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --radius: 16px;
+            --radius-sm: 8px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background: var(--background);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modern-error-container {
+            width: 100%;
+            max-width: 500px;
+            padding: 2rem;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .modern-error-content {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 3rem 2.5rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modern-error-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--error) 0%, var(--error-dark) 100%);
+        }
+
+        .modern-error-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--error) 0%, var(--error-dark) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            padding: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        .modern-error-icon svg {
+            width: 40px;
+            height: 40px;
+            stroke-width: 2;
+        }
+
+        .modern-error-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text);
+            margin: 0 0 0.5rem 0;
+            background: linear-gradient(135deg, var(--error) 0%, var(--error-dark) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .modern-error-subtitle {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--text-light);
+            margin: 0 0 2rem 0;
+            line-height: 1.5;
+        }
+
+        .modern-error-details {
+            background: var(--error-light);
+            border: 1px solid var(--error);
+            border-radius: var(--radius-sm);
+            padding: 1.25rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .modern-error-detail-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--error-dark);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .modern-error-detail-value {
+            display: block;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text);
+            background: var(--surface);
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .modern-error-message {
+            font-size: 1.125rem;
+            color: var(--text);
+            line-height: 1.6;
+            margin: 2rem 0;
+        }
+
+        .modern-error-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .modern-btn {
+            padding: 0.875rem 2rem;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            min-width: 140px;
+        }
+
+        .modern-btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, #3a56d4 100%);
+            color: white;
+        }
+
+        .modern-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(67, 97, 238, 0.3);
+        }
+
+        .modern-btn-secondary {
+            background: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--border);
+        }
+
+        .modern-btn-secondary:hover {
+            background: var(--background);
+            border-color: var(--text-light);
+            transform: translateY(-2px);
+        }
+
+        .modern-btn-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        /* Animations */
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @@keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+            }
+        }
+
+        /* Responsive */
+        @@media (max-width: 640px) {
+            .modern-error-container {
+                padding: 1rem;
+            }
+
+            .modern-error-content {
+                padding: 2rem 1.5rem;
+            }
+
+            .modern-error-icon {
+                width: 64px;
+                height: 64px;
+                padding: 0.75rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .modern-error-icon svg {
+                width: 32px;
+                height: 32px;
+            }
+
+            .modern-error-title {
+                font-size: 2rem;
+            }
+
+            .modern-error-subtitle {
+                font-size: 1.125rem;
+            }
+
+            .modern-error-message {
+                font-size: 1rem;
+            }
+
+            .modern-error-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .modern-btn {
+                width: 100%;
+            }
+        }
+
+        @@media (max-width: 480px) {
+            .modern-error-content {
+                padding: 1.5rem 1rem;
+            }
+
+            .modern-error-title {
+                font-size: 1.75rem;
+            }
+
+            .modern-error-icon {
+                width: 56px;
+                height: 56px;
+                padding: 0.5rem;
+            }
+
+            .modern-error-icon svg {
+                width: 28px;
+                height: 28px;
+            }
+        }
+    </style>
+}

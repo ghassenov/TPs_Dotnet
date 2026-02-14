@@ -1,0 +1,465 @@
+@model MoviesCrudApp.Models.Movie
+@using MoviesCrudApp.Models
+
+@{
+    ViewData["Title"] = "Supprimer le Film";
+}
+
+<div class="modern-container">
+    <!-- Header -->
+    <div class="modern-header">
+        <h1 class="modern-title modern-title-danger">⚠️ @ViewData["Title"]</h1>
+    </div>
+
+    <!-- Warning Alert -->
+    <div class="modern-alert modern-alert-warning">
+        <div class="modern-alert-header">
+            <svg class="modern-alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.694-.833-2.464 0L4.732 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+            </svg>
+            <span>Attention !</span>
+        </div>
+        <p>Cette action est <strong>irréversible</strong>. Êtes-vous sûr de vouloir supprimer ce film ? Toutes les données associées seront perdues.</p>
+    </div>
+
+    <div class="modern-delete-content">
+        <!-- Movie Image & Details -->
+        <div class="modern-delete-grid">
+            <!-- Movie Image -->
+            <div class="modern-delete-image">
+                @if (!string.IsNullOrEmpty(Model.ImageFile))
+                {
+                    <img src="~/images/@Model.ImageFile" alt="@Model.Title" class="modern-movie-image" />
+                }
+                else
+                {
+                    <div class="modern-image-placeholder">
+                        <svg class="modern-placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                        <p>Pas d'image</p>
+                    </div>
+                }
+            </div>
+
+            <!-- Movie Details -->
+            <div class="modern-delete-details">
+                <div class="modern-card modern-card-danger">
+                    <div class="modern-card-header modern-card-header-danger">
+                        <h2 class="modern-card-title">Informations du Film</h2>
+                    </div>
+                    <div class="modern-content">
+                        <h3 class="modern-movie-title">@Model.Title</h3>
+                        
+                        <div class="modern-detail-divider"></div>
+                        
+                        <div class="modern-detail-grid">
+                            <div class="modern-detail-item">
+                                <div class="modern-detail-label">Genre</div>
+                                <div class="modern-tag">@Model.Genre?.Name</div>
+                            </div>
+                            
+                            <div class="modern-detail-item">
+                                <div class="modern-detail-label">Date de Sortie</div>
+                                <div class="modern-detail-value">@Model.ReleaseDate.ToString("dd/MM/yyyy")</div>
+                            </div>
+                            
+                            <div class="modern-detail-item">
+                                <div class="modern-detail-label">Durée</div>
+                                <div class="modern-detail-value">@Model.Duration minutes</div>
+                            </div>
+                            
+                            <div class="modern-detail-item">
+                                <div class="modern-detail-label">Note</div>
+                                <div class="modern-tag modern-tag-success">⭐ @Model.Rating/10</div>
+                            </div>
+                        </div>
+                        
+                        <div class="modern-detail-divider"></div>
+                        
+                        <div class="modern-detail-item">
+                            <div class="modern-detail-label">Description</div>
+                            <div class="modern-description">@Model.Description</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete Form -->
+        <form asp-action="Delete" method="post" class="modern-confirm-form">
+            <input type="hidden" name="id" value="@Model.Id" />
+            
+            <div class="modern-form-actions modern-form-actions-danger">
+                <button type="submit" class="modern-btn modern-btn-danger">
+                    <svg class="modern-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                    </svg>
+                    Confirmer la suppression
+                </button>
+                
+                <a asp-action="Index" class="modern-btn modern-btn-secondary">
+                    <svg class="modern-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M19 12H5m0 0l7-7m-7 7l7 7"/>
+                    </svg>
+                    Annuler
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* Using the same design system */
+        :root {
+            --primary: #4361ee;
+            --primary-light: #eef2ff;
+            --secondary: #64748b;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --warning-light: #fef3c7;
+            --warning-border: #fde68a;
+            --danger: #dc2626;
+            --danger-light: #fee2e2;
+            --surface: #ffffff;
+            --background: #f8fafc;
+            --border: #e2e8f0;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --radius: 16px;
+            --radius-sm: 8px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --transition: all 0.2s ease;
+        }
+
+        .modern-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .modern-header {
+            margin-bottom: 2rem;
+        }
+
+        .modern-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text);
+            background: linear-gradient(135deg, var(--primary) 0%, #3a56d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .modern-title-danger {
+            background: linear-gradient(135deg, var(--danger) 0%, #b91c1c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .modern-alert {
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            animation: slideIn 0.3s ease;
+        }
+
+        .modern-alert-warning {
+            background: linear-gradient(135deg, var(--warning-light) 0%, #fef3c7 100%);
+            border: 1px solid var(--warning-border);
+        }
+
+        .modern-alert-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            color: var(--warning);
+        }
+
+        .modern-alert-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        .modern-alert p {
+            margin: 0;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .modern-alert strong {
+            color: var(--text);
+        }
+
+        .modern-delete-content {
+            margin-top: 2rem;
+        }
+
+        .modern-delete-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        @@media (max-width: 768px) {
+            .modern-delete-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+
+        /* Movie Image */
+        .modern-delete-image {
+            width: 100%;
+        }
+
+        .modern-movie-image {
+            width: 100%;
+            height: auto;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            object-fit: cover;
+            aspect-ratio: 2/3;
+        }
+
+        .modern-image-placeholder {
+            width: 100%;
+            height: 100%;
+            min-height: 300px;
+            background: var(--background);
+            border-radius: var(--radius);
+            border: 2px dashed var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            color: var(--text-light);
+        }
+
+        .modern-placeholder-icon {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .modern-image-placeholder p {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        /* Movie Details */
+        .modern-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            height: 100%;
+            border: 1px solid var(--border);
+        }
+
+        .modern-card-danger {
+            border-color: var(--danger);
+        }
+
+        .modern-card-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modern-card-header-danger {
+            background: linear-gradient(135deg, var(--danger) 0%, #b91c1c 100%);
+            border-bottom: 1px solid var(--danger);
+        }
+
+        .modern-card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: white;
+            margin: 0;
+        }
+
+        .modern-content {
+            padding: 2rem;
+        }
+
+        .modern-movie-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .modern-detail-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 1.5rem 0;
+        }
+
+        .modern-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @@media (max-width: 480px) {
+            .modern-detail-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .modern-detail-item {
+            margin-bottom: 1.25rem;
+        }
+
+        .modern-detail-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .modern-detail-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 0.375rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .modern-detail-value {
+            font-size: 1.125rem;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .modern-description {
+            color: var(--text);
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        /* Tags */
+        .modern-tag {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .modern-tag-success {
+            background: linear-gradient(135deg, var(--success) 0%, #0d9c6e 100%);
+        }
+
+        /* Delete Form */
+        .modern-confirm-form {
+            margin-top: 2rem;
+        }
+
+        .modern-form-actions {
+            display: flex;
+            gap: 1rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .modern-form-actions-danger {
+            border-top-color: var(--danger-light);
+        }
+
+        .modern-btn {
+            padding: 0.875rem 2rem;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .modern-btn-danger {
+            background: linear-gradient(135deg, var(--danger) 0%, #b91c1c 100%);
+            color: white;
+        }
+
+        .modern-btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.3);
+        }
+
+        .modern-btn-secondary {
+            background: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--border);
+        }
+
+        .modern-btn-secondary:hover {
+            background: var(--background);
+            border-color: var(--text-light);
+        }
+
+        .modern-btn-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        input[type="hidden"] {
+            display: none;
+        }
+
+        /* Animations */
+        @@keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @@media (max-width: 640px) {
+            .modern-container {
+                padding: 0 1rem;
+            }
+
+            .modern-title {
+                font-size: 1.75rem;
+            }
+
+            .modern-content {
+                padding: 1.5rem;
+            }
+
+            .modern-card-header {
+                padding: 1.25rem 1.5rem;
+            }
+
+            .modern-form-actions {
+                flex-direction: column;
+            }
+
+            .modern-btn {
+                width: 100%;
+            }
+        }
+    </style>
+}

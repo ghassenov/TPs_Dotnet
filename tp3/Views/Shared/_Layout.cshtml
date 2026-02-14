@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MoviesCrudApp</title>
+    
+    <!-- Modern design system styles -->
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body class="modern-body">
+
+    <!-- Modern Navbar -->
+    <nav class="modern-navbar">
+        <div class="modern-navbar-container">
+            <!-- Logo -->
+            <a class="modern-navbar-brand" asp-controller="Home" asp-action="Index">
+                <span class="modern-navbar-logo">🎬</span>
+                <span class="modern-navbar-title">MoviesCrudApp</span>
+            </a>
+
+            <!-- Mobile Toggle -->
+            <button class="modern-navbar-toggle" id="navbarToggle" aria-label="Toggle navigation">
+                <span class="modern-navbar-toggle-line"></span>
+                <span class="modern-navbar-toggle-line"></span>
+                <span class="modern-navbar-toggle-line"></span>
+            </button>
+
+            <!-- Navigation Menu -->
+            <div class="modern-navbar-menu" id="navbarMenu">
+                <ul class="modern-navbar-nav">
+                    <li class="modern-nav-item">
+                        <a class="modern-nav-link" asp-controller="Movies" asp-action="Index">
+                            <svg class="modern-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/>
+                            </svg>
+                            Films
+                        </a>
+                    </li>
+
+                    <li class="modern-nav-item">
+                        <a class="modern-nav-link" asp-controller="Customers" asp-action="Index">
+                            <svg class="modern-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                            </svg>
+                            Clients
+                        </a>
+                    </li>
+
+                    <li class="modern-nav-item">
+                        <a class="modern-nav-link" asp-controller="MembershipTypes" asp-action="Index">
+                            <svg class="modern-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                            </svg>
+                            Types d'Adhésion
+                        </a>
+                    </li>
+
+                    <li class="modern-nav-item">
+                        <a class="modern-nav-link" asp-controller="Home" asp-action="Privacy">
+                            <svg class="modern-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4"/>
+                            </svg>
+                            Confidentialité
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="modern-main">
+        @RenderBody()
+    </main>
+
+    <!-- Footer -->
+    <footer class="modern-footer">
+        <div class="modern-footer-container">
+            <p class="modern-footer-text">
+                &copy; 2024 <strong>MoviesCrudApp</strong> — Tous droits réservés.
+            </p>
+            <div class="modern-footer-links">
+                <a asp-controller="Home" asp-action="Privacy" class="modern-footer-link">
+                    Confidentialité
+                </a>
+                <span class="modern-footer-separator">•</span>
+                <a asp-controller="Home" asp-action="Index" class="modern-footer-link">
+                    Accueil
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script>
+        // Modern navbar toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggle = document.getElementById('navbarToggle');
+            const menu = document.getElementById('navbarMenu');
+            
+            if (toggle && menu) {
+                toggle.addEventListener('click', function() {
+                    menu.classList.toggle('modern-navbar-menu-open');
+                    toggle.classList.toggle('modern-navbar-toggle-open');
+                });
+                
+                // Close menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (!toggle.contains(event.target) && !menu.contains(event.target)) {
+                        menu.classList.remove('modern-navbar-menu-open');
+                        toggle.classList.remove('modern-navbar-toggle-open');
+                    }
+                });
+                
+                // Close menu when clicking on a link (for mobile)
+                const navLinks = menu.querySelectorAll('.modern-nav-link');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        menu.classList.remove('modern-navbar-menu-open');
+                        toggle.classList.remove('modern-navbar-toggle-open');
+                    });
+                });
+            }
+            
+            // Add active state to current page
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.modern-nav-link');
+            
+            navLinks.forEach(link => {
+                const linkPath = link.getAttribute('href');
+                if (linkPath && currentPath.startsWith(linkPath) && linkPath !== '/') {
+                    link.classList.add('modern-nav-link-active');
+                } else if (linkPath === '/' && currentPath === '/') {
+                    link.classList.add('modern-nav-link-active');
+                }
+            });
+        });
+    </script>
+    
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

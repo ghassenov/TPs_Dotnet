@@ -1,0 +1,605 @@
+@model MoviesCrudApp.Models.Movie
+@using MoviesCrudApp.Models
+
+@{
+    ViewData["Title"] = "Modifier le Film";
+}
+
+<div class="modern-container">
+    <!-- Header -->
+    <div class="modern-header">
+        <h1 class="modern-title">✏️ @ViewData["Title"]</h1>
+    </div>
+
+    <!-- Validation Errors -->
+    @if (ViewBag.Errors != null && ((List<string>)ViewBag.Errors).Count > 0)
+    {
+        <div class="modern-alert modern-alert-error">
+            <div class="modern-alert-header">
+                <svg class="modern-alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.694-.833-2.464 0L4.732 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                </svg>
+                <span>Erreurs de validation</span>
+            </div>
+            <ul class="modern-alert-list">
+                @foreach (var error in ViewBag.Errors)
+                {
+                    <li>@error</li>
+                }
+            </ul>
+        </div>
+    }
+
+    <!-- Form Card -->
+    <div class="modern-card">
+        <form asp-action="Edit" method="post" enctype="multipart/form-data" class="modern-form">
+            <div asp-validation-summary="ModelOnly" class="modern-validation-summary"></div>
+
+            <input type="hidden" asp-for="Id" />
+
+            <div class="modern-form-group">
+                <label asp-for="Title" class="modern-form-label">
+                    Titre <span class="modern-required">*</span>
+                </label>
+                <input asp-for="Title" class="modern-input" />
+                <span asp-validation-for="Title" class="modern-error"></span>
+            </div>
+
+            <div class="modern-form-group">
+                <label asp-for="Description" class="modern-form-label">
+                    Description <span class="modern-required">*</span>
+                </label>
+                <textarea asp-for="Description" class="modern-textarea" rows="4"></textarea>
+                <span asp-validation-for="Description" class="modern-error"></span>
+            </div>
+
+            <!-- Release Date & Duration -->
+            <div class="modern-form-grid">
+                <div class="modern-form-group">
+                    <label asp-for="ReleaseDate" class="modern-form-label">
+                        Date de Sortie <span class="modern-required">*</span>
+                    </label>
+                    <input asp-for="ReleaseDate" type="date" class="modern-input" />
+                    <span asp-validation-for="ReleaseDate" class="modern-error"></span>
+                </div>
+
+                <div class="modern-form-group">
+                    <label asp-for="Duration" class="modern-form-label">
+                        Durée (minutes) <span class="modern-required">*</span>
+                    </label>
+                    <input asp-for="Duration" type="number" class="modern-input" />
+                    <span asp-validation-for="Duration" class="modern-error"></span>
+                </div>
+            </div>
+
+            <!-- Rating & Genre -->
+            <div class="modern-form-grid">
+                <div class="modern-form-group">
+                    <label asp-for="Rating" class="modern-form-label">
+                        Note (0-10) <span class="modern-required">*</span>
+                    </label>
+                    <input asp-for="Rating" type="number" step="0.1" min="0" max="10" class="modern-input" />
+                    <span asp-validation-for="Rating" class="modern-error"></span>
+                </div>
+
+                <div class="modern-form-group">
+                    <label asp-for="GenreId" class="modern-form-label">
+                        Genre <span class="modern-required">*</span>
+                    </label>
+                    <select asp-for="GenreId" class="modern-select">
+                        <option value="">-- Sélectionner un genre --</option>
+                        @foreach (var genre in ViewBag.Genres)
+                        {
+                            <option value="@genre.Id" selected="@(Model.GenreId == genre.Id)">
+                                @genre.Name
+                            </option>
+                        }
+                    </select>
+                    <span asp-validation-for="GenreId" class="modern-error"></span>
+                </div>
+            </div>
+
+            <!-- Current Image -->
+            @if (!string.IsNullOrEmpty(Model.ImageFile))
+            {
+                <div class="modern-form-group">
+                    <label class="modern-form-label">Image actuelle</label>
+                    <div class="modern-image-preview">
+                        <img src="~/images/@Model.ImageFile" alt="@Model.Title" class="modern-preview-image" />
+                        <div class="modern-image-actions">
+                            <label class="modern-checkbox">
+                                <input class="modern-checkbox-input" type="checkbox" value="true" name="RemoveImage" id="RemoveImage">
+                                <span class="modern-checkbox-label">
+                                    <svg class="modern-checkbox-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <path d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                    Supprimer l'image actuelle
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <!-- New Image Upload -->
+            <div class="modern-form-group">
+                <label for="Photo" class="modern-form-label">
+                    @(string.IsNullOrEmpty(Model.ImageFile) ? "Ajouter une image" : "Remplacer par une nouvelle image")
+                </label>
+                <div class="modern-file-upload">
+                    <input name="Photo" id="Photo" type="file" class="modern-file-input" accept="image/*" />
+                    <div class="modern-file-info">
+                        <svg class="modern-file-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                        <span class="modern-file-text">Choisir une image</span>
+                    </div>
+                </div>
+                <div class="modern-file-hint">
+                    <svg class="modern-hint-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M13 16h-1v-4h1m0-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    Formats acceptés: JPG, PNG, GIF, WebP
+                </div>
+            </div>
+
+            <!-- Submit Buttons -->
+            <div class="modern-form-actions">
+                <button type="submit" class="modern-btn modern-btn-primary">
+                    <svg class="modern-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
+                        <path d="M17 21v-8H7v8M7 3v5h8"/>
+                    </svg>
+                    Mettre à jour
+                </button>
+                
+                <a asp-action="Index" class="modern-btn modern-btn-secondary">
+                    <svg class="modern-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                    Annuler
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* Using the same design system */
+        :root {
+            --primary: #4361ee;
+            --primary-light: #eef2ff;
+            --secondary: #64748b;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --surface: #ffffff;
+            --background: #f8fafc;
+            --border: #e2e8f0;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --radius: 12px;
+            --radius-sm: 8px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --transition: all 0.2s ease;
+        }
+
+        .modern-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .modern-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .modern-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text);
+            background: linear-gradient(135deg, var(--primary) 0%, #3a56d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .modern-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2.5rem;
+            transition: var(--transition);
+            border: 1px solid var(--border);
+        }
+
+        .modern-card:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        .modern-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.75rem;
+        }
+
+        .modern-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @@media (max-width: 640px) {
+            .modern-form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .modern-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .modern-form-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .modern-required {
+            color: var(--error);
+        }
+
+        .modern-input,
+        .modern-textarea,
+        .modern-select {
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            transition: var(--transition);
+            background: var(--surface);
+            color: var(--text);
+            font-family: inherit;
+        }
+
+        .modern-input:focus,
+        .modern-textarea:focus,
+        .modern-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .modern-textarea {
+            min-height: 120px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+
+        .modern-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.25rem;
+            padding-right: 3rem;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="date"] {
+            color: var(--text);
+        }
+
+        input[type="date"]:invalid {
+            color: var(--text-light);
+        }
+
+        .modern-error {
+            font-size: 0.875rem;
+            color: var(--error);
+            margin-top: 0.25rem;
+        }
+
+        /* Image Preview */
+        .modern-image-preview {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background: var(--background);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+        }
+
+        @@media (max-width: 640px) {
+            .modern-image-preview {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+        }
+
+        .modern-preview-image {
+            width: 150px;
+            height: 225px;
+            object-fit: cover;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+
+        .modern-image-actions {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        /* Custom Checkbox */
+        .modern-checkbox {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .modern-checkbox-input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .modern-checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.875rem;
+            color: var(--text);
+            font-weight: 500;
+            padding: 0.5rem 0;
+        }
+
+        .modern-checkbox-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid var(--secondary);
+            border-radius: 4px;
+            padding: 2px;
+            transition: var(--transition);
+        }
+
+        .modern-checkbox-input:checked ~ .modern-checkbox-label .modern-checkbox-icon {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .modern-checkbox:hover .modern-checkbox-label {
+            color: var(--primary);
+        }
+
+        .modern-checkbox:hover .modern-checkbox-icon {
+            border-color: var(--primary);
+        }
+
+        /* File Upload */
+        .modern-file-upload {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .modern-file-input {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .modern-file-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.875rem 1rem;
+            border: 2px dashed var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--background);
+            transition: var(--transition);
+        }
+
+        .modern-file-input:focus + .modern-file-info {
+            border-color: var(--primary);
+            border-style: solid;
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .modern-file-input:hover + .modern-file-info {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .modern-file-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            color: var(--primary);
+        }
+
+        .modern-file-text {
+            font-size: 1rem;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .modern-file-hint {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        .modern-hint-icon {
+            width: 1rem;
+            height: 1rem;
+            flex-shrink: 0;
+        }
+
+        /* Form Actions */
+        .modern-form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .modern-btn {
+            padding: 0.875rem 2rem;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .modern-btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, #3a56d4 100%);
+            color: white;
+        }
+
+        .modern-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(67, 97, 238, 0.3);
+        }
+
+        .modern-btn-secondary {
+            background: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--border);
+        }
+
+        .modern-btn-secondary:hover {
+            background: var(--background);
+            border-color: var(--text-light);
+        }
+
+        .modern-btn-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        /* Alerts */
+        .modern-alert {
+            border-radius: var(--radius);
+            padding: 1.25rem;
+            margin-bottom: 2rem;
+            animation: slideIn 0.3s ease;
+        }
+
+        .modern-alert-error {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee 100%);
+            border: 1px solid #fecaca;
+        }
+
+        .modern-alert-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            color: var(--error);
+        }
+
+        .modern-alert-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        .modern-alert-list {
+            margin: 0;
+            padding-left: 1.5rem;
+            color: var(--text);
+        }
+
+        .modern-alert-list li {
+            margin-bottom: 0.25rem;
+        }
+
+        .modern-validation-summary {
+            display: none;
+        }
+
+        input[type="hidden"] {
+            display: none;
+        }
+
+        @@keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @@media (max-width: 640px) {
+            .modern-container {
+                padding: 0 1rem;
+            }
+
+            .modern-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .modern-form-actions {
+                flex-direction: column;
+            }
+
+            .modern-btn {
+                width: 100%;
+            }
+
+            .modern-title {
+                font-size: 1.75rem;
+            }
+
+            .modern-preview-image {
+                width: 120px;
+                height: 180px;
+            }
+        }
+    </style>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

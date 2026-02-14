@@ -1,0 +1,31 @@
+/* _content/MoviesCrudApp/Views/Shared/_Layout.cshtml.rz.scp.css */
+html[b-ghs389mwio] {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html[b-ghs389mwio] {
+    font-size: 16px;
+  }
+}
+
+.btn:focus[b-ghs389mwio], .btn:active:focus[b-ghs389mwio], .btn-link.nav-link:focus[b-ghs389mwio], .form-control:focus[b-ghs389mwio], .form-check-input:focus[b-ghs389mwio] {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cff;
+}
+
+html[b-ghs389mwio] {
+  position: relative;
+  min-height: 100%;
+}
+
+body[b-ghs389mwio] {
+  margin-bottom: 60px;
+}
+
+.footer[b-ghs389mwio] {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px;
+}
