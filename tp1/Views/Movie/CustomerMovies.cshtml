@@ -1,0 +1,27 @@
+@model tp1.ViewModels.MovieCustomerViewModel
+
+<div class="container">
+    <div class="card">
+        <h2>Customer</h2>
+        <p><strong>ID:</strong> @Model.Customer.Id</p>
+        <p><strong>Name:</strong> @Model.Customer.Name</p>
+    </div>
+
+    <h2>Movies</h2>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+        </tr>
+
+        @foreach (var movie in Model.Movies)
+        {
+            <tr>
+                <td>@movie.Id</td>
+                <td>@movie.Name</td>
+            </tr>
+        }
+    </table>
+</div>
+
